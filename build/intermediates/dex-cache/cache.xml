@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/doug/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.1.0/support-annotations-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="92e3fc113ec3ee36b64603a38857b95700025633">
+        <dex dex="/Users/doug/Documents/MultiSeekBar/app/build/intermediates/pre-dexed/debug/support-annotations-23.1.0-8a32304ed166a6d1c5db43240986eb8274f57947.jar" />
+    </item>
+    <item
+        jar="/Users/doug/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-stdlib/1.0.0-beta-1103/9a1faa02a6053c81c4133d9bb4cefaf87efc4ee/kotlin-stdlib-1.0.0-beta-1103.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="09a1faa02a6053c81c4133d9bb4cefaf87efc4ee">
+        <dex dex="/Users/doug/Documents/MultiSeekBar/app/build/intermediates/pre-dexed/debug/kotlin-stdlib-1.0.0-beta-1103-becce04b3d2f51d1ca7372f75f9b5427447608ff.jar" />
+    </item>
+    <item
+        jar="/Users/doug/Documents/MultiSeekBar/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/libs/internal_impl-23.1.0.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="8716243bf04bae8d6c9ca94d27b9a9be7236f0a3">
+        <dex dex="/Users/doug/Documents/MultiSeekBar/app/build/intermediates/pre-dexed/debug/internal_impl-23.1.0-ae04a8f1b982471a943355b1d82711424e73bb07.jar" />
+    </item>
+    <item
+        jar="/Users/doug/Documents/MultiSeekBar/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="57ae0d750ff83f0c738d21720224ac7ea866a094">
+        <dex dex="/Users/doug/Documents/MultiSeekBar/app/build/intermediates/pre-dexed/debug/classes-342350371eff016872692274160c4be491c0275d.jar" />
+    </item>
+    <item
+        jar="/Users/doug/Documents/MultiSeekBar/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.1.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="ddde541c289c8b816a8f8fd6c325d80788c522a6">
+        <dex dex="/Users/doug/Documents/MultiSeekBar/app/build/intermediates/pre-dexed/debug/classes-8fdace89fd9f36fe03b0d1bdbea5bc645e1f209e.jar" />
+    </item>
+    <item
+        jar="/Users/doug/.gradle/caches/modules-2/files-2.1/org.jetbrains.kotlin/kotlin-runtime/1.0.0-beta-1103/45e49c2a02be2e2cefc527c21b9fb9505481b2ae/kotlin-runtime-1.0.0-beta-1103.jar"
+        jumboMode="false"
+        revision="23.0.1"
+        sha1="45e49c2a02be2e2cefc527c21b9fb9505481b2ae">
+        <dex dex="/Users/doug/Documents/MultiSeekBar/app/build/intermediates/pre-dexed/debug/kotlin-runtime-1.0.0-beta-1103-d5514c16f6a21bce6e9738b30ad202b247799474.jar" />
+    </item>
+
+</items>

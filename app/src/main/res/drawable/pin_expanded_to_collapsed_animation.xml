@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/pin" >
+    <target
+        android:name="pinGroup"
+        android:animation="@anim/collapse_pin" />
+    <target
+        android:name="circleGroup"
+        android:animation="@anim/expand_circle" />
+</animated-vector>

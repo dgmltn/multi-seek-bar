@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48"
+    >
+
+    <group
+        android:name="circleGroup"
+        android:translateY="15"
+        android:pivotX="24"
+        android:pivotY="9"
+        android:scaleX="0.2"
+        android:scaleY="0.2"
+        >
+        <path
+            android:name="circle"
+            android:pathData="M 24 3 C 27.313708499 3 30 5.68629150102 30 9 C 30 12.313708499 27.313708499 15 24 15 C 20.686291501 15 18 12.313708499 18 9 C 18 5.68629150102 20.686291501 3 24 3 Z"
+            />
+    </group>
+
+    <group
+        android:name="pinGroup"
+        android:translateY="12"
+        android:pivotX="24"
+        android:pivotY="5"
+        >
+        <path
+            android:name="pin"
+            android:fillColor="#000"
+            android:pathData="M24-29a11.2 11.2 0 0 0 -11.2 11.2c0 8.4 11.2 20.8 11.2 20.8s11.2-12.4 11.2-20.8a11.2 11.2 0 0 0 -11.2 -11.2z"
+            />
+    </group>
+
+</vector>

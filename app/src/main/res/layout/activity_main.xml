@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    android:clipChildren="false"
+    tools:context=".MainActivity">
+
+    <com.dgmltn.slider.PinView
+        android:id="@+id/pin2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:background="#20000000"
+        android:text="yay"
+        android:clickable="true"/>
+
+    <com.dgmltn.slider.HorizontalSlider
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:padding="24dp"
+        app:isDiscrete="true"
+        app:hasTicks="true"
+        app:thumbColor="@color/thumb"
+        app:tickColor="#000000"
+        app:trackColor="@color/track"
+        />
+
+    <com.dgmltn.slider.ArcSlider
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:paddingTop="48dp"
+        android:paddingBottom="24dp"
+        />
+
+</LinearLayout>
