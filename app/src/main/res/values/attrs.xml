@@ -6,6 +6,7 @@
     </declare-styleable>
 
     <declare-styleable name="AbsSlider">
+        <attr name="max" format="integer" />
         <attr name="hasTicks" format="boolean" />
         <attr name="isDiscrete" format="boolean" />
         <attr name="thumbColor" format="color" />

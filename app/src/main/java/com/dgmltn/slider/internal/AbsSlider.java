@@ -30,16 +30,18 @@ public abstract class AbsSlider extends ViewGroup {
 	private static final int DEFAULT_TICK_COLOR = Color.BLACK;
 	private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
 
+	private static float TRACK_WIDTH_DP = 2;
+	private static float TICK_RADIUS_DP = TRACK_WIDTH_DP / 2;
+
 	// Bar properties
 	private boolean hasTicks = true;
 	private boolean isDiscrete = true;
 	protected int max = 10;
-	protected PinView[] pins = new PinView[2];
 
 	// Colors
 	private ColorStateList trackColor = new ColorStateList(
 		new int[][] {
-			new int[] {android.R.attr.state_selected},
+			new int[] { android.R.attr.state_selected },
 			StateSet.WILD_CARD
 		},
 		new int[] {
@@ -51,11 +53,6 @@ public abstract class AbsSlider extends ViewGroup {
 	private ColorStateList thumbColor = ColorStateList.valueOf(DEFAULT_THUMB_COLOR);
 	private int textColor = DEFAULT_TEXT_COLOR;
 
-	// Sizes
-	private int trackOffWidth = 4;
-	private int trackOnWidth = trackOffWidth;
-	private int tickRadius = trackOffWidth / 2;
-
 	public AbsSlider(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		setClipToPadding(false);
@@ -64,6 +61,7 @@ public abstract class AbsSlider extends ViewGroup {
 
 		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.AbsSlider, 0, 0);
+			max = ta.getInteger(R.styleable.AbsSlider_max, max);
 			hasTicks = ta.getBoolean(R.styleable.AbsSlider_hasTicks, hasTicks);
 			isDiscrete = ta.getBoolean(R.styleable.AbsSlider_isDiscrete, isDiscrete);
 			if (ta.hasValue(R.styleable.AbsSlider_trackColor)) {
@@ -103,10 +101,17 @@ public abstract class AbsSlider extends ViewGroup {
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		for (int i = 0; i < getChildCount(); i++) {
-			View child = getChildAt(i);
-			child.layout(0, 0, child.getMeasuredWidth(), child.getMeasuredHeight());
+			PinView child = (PinView) getChildAt(i);
+			getPointOnBar(mTmpPointF, child.getValue());
+			mTmpPointF.x -= child.getMeasuredWidth() / 2f;
+			mTmpPointF.y -= child.getMeasuredHeight() / 2f;
+			child.layout(
+				(int) mTmpPointF.x,
+				(int) mTmpPointF.y,
+				(int) mTmpPointF.x + child.getMeasuredWidth(),
+				(int) mTmpPointF.y + child.getMeasuredHeight()
+			);
 		}
-		placePins();
 	}
 
 	@Override
@@ -129,17 +134,29 @@ public abstract class AbsSlider extends ViewGroup {
 	/////////////////////////////////////////////////////////////////////////
 
 	public void setPinValue(int index, float value) {
+		if (index < 0 || index >= getChildCount()) {
+			return;
+		}
 		value = clamp(value);
-		if (value != pins[index].getValue()) {
-			pins[index].setValue(value);
-			pins[index].setText(Integer.toString(Math.round(value)));
-			placePins();
+		PinView pin = getChildAt(index);
+		if (value != pin.getValue()) {
+			pin.setValue(value);
+			getPointOnBar(mTmpPointF, pin.getValue());
+			float dx = mTmpPointF.x - pin.getMeasuredWidth() / 2 - pin.getLeft();
+			float dy = mTmpPointF.y - pin.getMeasuredHeight() / 2 - pin.getTop();
+			pin.offsetLeftAndRight((int) dx);
+			pin.offsetTopAndBottom((int) dy);
 			invalidate();
 		}
 	}
 
 	private float clamp(float value) {
 		return value < 0 ? 0 : value > max ? max : value;
+	}
+
+	@Override
+	public PinView getChildAt(int index) {
+		return (PinView) super.getChildAt(index);
 	}
 
 	/////////////////////////////////////////////////////////////////////////
@@ -160,23 +177,21 @@ public abstract class AbsSlider extends ViewGroup {
 		switch (event.getAction()) {
 
 		case MotionEvent.ACTION_DOWN:
-			float d1 = distance(pins[0].getValue(), event.getX(), event.getY());
-			float d2 = distance(pins[1].getValue(), event.getX(), event.getY());
+			float dmin = Float.MAX_VALUE;
 			expanded = -1;
-			if (d1 < d2) {
-				pins[0].getHitRect(mTmpRect);
-				if (mTmpRect.contains((int) event.getX(), (int) event.getY())) {
-					expanded = 0;
-				}
-			}
-			else {
-				pins[1].getHitRect(mTmpRect);
-				if (mTmpRect.contains((int) event.getX(), (int) event.getY())) {
-					expanded = 1;
+			for (int i = 0; i < getChildCount(); i++) {
+				PinView pin = getChildAt(i);
+				float d = distance(pin.getValue(), event.getX(), event.getY());
+				if (d < dmin) {
+					dmin = d;
+					getChildAt(i).getHitRect(mTmpRect);
+					if (mTmpRect.contains((int) event.getX(), (int) event.getY())) {
+						expanded = i;
+					}
 				}
 			}
 			if (expanded > -1) {
-				pins[expanded].setPressed(true);
+				getChildAt(expanded).setPressed(true);
 				cancelLongPress();
 				attemptClaimDrag();
 			}
@@ -192,8 +207,13 @@ public abstract class AbsSlider extends ViewGroup {
 		case MotionEvent.ACTION_UP:
 		case MotionEvent.ACTION_CANCEL:
 			if (expanded > -1) {
-				pins[expanded].setPressed(false);
-				setPinValue(expanded, Math.round(pins[expanded].getValue()));
+				PinView pin = getChildAt(expanded);
+				pin.setPressed(false);
+				float value = pin.getValue();
+				if (isDiscrete) {
+					value = Math.round(value);
+				}
+				setPinValue(expanded, value);
 				expanded = -1;
 			}
 			break;
@@ -226,13 +246,6 @@ public abstract class AbsSlider extends ViewGroup {
 		}
 	}
 
-	protected void placePins() {
-		for (int i = 0; i < pins.length; i++) {
-			getPointOnBar(mTmpPointF, pins[i].getValue());
-			pins[i].offsetTo(mTmpPointF);
-		}
-	}
-
 	/////////////////////////////////////////////////////////////////////////
 	// Rendering
 	/////////////////////////////////////////////////////////////////////////
@@ -248,12 +261,14 @@ public abstract class AbsSlider extends ViewGroup {
 	private static final int[] ACTIVATED = new int[] { android.R.attr.state_activated };
 
 	protected void initTrack() {
+		float density = getResources().getDisplayMetrics().density;
+
 		// Initialize the paint.
 		mTrackOffPaint = new Paint();
 		mTrackOffPaint.setAntiAlias(true);
 		mTrackOffPaint.setStyle(Paint.Style.STROKE);
 		mTrackOffPaint.setColor(trackColor.getColorForState(ACTIVATED, trackColor.getDefaultColor()));
-		mTrackOffPaint.setStrokeWidth(trackOffWidth);
+		mTrackOffPaint.setStrokeWidth(TRACK_WIDTH_DP * density);
 
 		mTickPaint = new Paint();
 		mTickPaint.setAntiAlias(true);
@@ -265,15 +280,19 @@ public abstract class AbsSlider extends ViewGroup {
 		mTrackOnPaint.setStyle(Paint.Style.STROKE);
 		mTrackOnPaint.setAntiAlias(true);
 		mTrackOnPaint.setColor(trackColor.getColorForState(SELECTED, trackColor.getDefaultColor()));
-		mTrackOnPaint.setStrokeWidth(trackOnWidth);
+		mTrackOnPaint.setStrokeWidth(TRACK_WIDTH_DP * density);
 	}
 
 	protected void initPins() {
-		for (int i = 0; i < pins.length; i++) {
-			pins[i] = new PinView(getContext(), null);
-			pins[i].setImageTintList(thumbColor);
-			pins[i].setTextColor(textColor);
-			addView(pins[i]);
+		if (getChildCount() != 0) {
+			return;
+		}
+
+		for (int i = 0; i < 2; i++) {
+			PinView pin = new PinView(getContext(), null);
+			pin.setImageTintList(thumbColor);
+			pin.setTextColor(textColor);
+			addView(pin);
 		}
 	}
 
@@ -284,7 +303,12 @@ public abstract class AbsSlider extends ViewGroup {
 		if (hasTicks) {
 			drawTicks(canvas);
 		}
-		drawConnectingLine(canvas, pins[0].getValue(), pins[1].getValue(), mTrackOnPaint);
+		if (getChildCount() == 1) {
+			drawConnectingLine(canvas, 0f, getChildAt(0).getValue(), mTrackOnPaint);
+		}
+		else if (getChildCount() == 2) {
+			drawConnectingLine(canvas, getChildAt(0).getValue(), getChildAt(1).getValue(), mTrackOnPaint);
+		}
 	}
 
 	/**
@@ -294,9 +318,11 @@ public abstract class AbsSlider extends ViewGroup {
 	 *               View#onDraw()}
 	 */
 	protected void drawTicks(Canvas canvas) {
+		float density = getResources().getDisplayMetrics().density;
+
 		for (int i = 0; i <= max; i++) {
 			getPointOnBar(mTmpPointF, i);
-			canvas.drawCircle(mTmpPointF.x, mTmpPointF.y, tickRadius, mTickPaint);
+			canvas.drawCircle(mTmpPointF.x, mTmpPointF.y, TICK_RADIUS_DP * density, mTickPaint);
 		}
 	}
 

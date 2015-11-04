@@ -3,14 +3,14 @@
 
     <objectAnimator
         android:propertyName="scaleX"
-        android:duration="@integer/anim_duration"
+        android:duration="@android:integer/config_mediumAnimTime"
         android:valueFrom="0.1"
         android:valueTo="1.0"
         android:interpolator="@android:anim/overshoot_interpolator"/>
 
     <objectAnimator
         android:propertyName="scaleY"
-        android:duration="@integer/anim_duration"
+        android:duration="@android:integer/config_mediumAnimTime"
         android:valueFrom="0.1"
         android:valueTo="1.0"
         android:interpolator="@android:anim/overshoot_interpolator"/>

@@ -53,7 +53,7 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 		paint.setTextSize(24f);
 		paint.setTextAlign(Paint.Align.CENTER);
 		paint.setAntiAlias(true);
-		duration = context.getResources().getInteger(R.integer.anim_duration);
+		duration = context.getResources().getInteger(android.R.integer.config_mediumAnimTime);
 	}
 
 	@Override
@@ -85,9 +85,10 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 		paint.setColor(color);
 	}
 
-	public boolean isExpanded() {
-		return this.isPressed;
-	}
+	// These numbers were determined experimentally based on the actual pin drawable
+	private static final float TEXT_EXPANSION_Y_PCT_START = 0.38f;
+	private static final float TEXT_EXPANSION_Y_PCT_STOP = -0.12f;
+	private static final float TEXT_SCALE_PCT = 0.27f;
 
 	@Override
 	public void draw(Canvas canvas) {
@@ -100,18 +101,19 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 				float diameter = (float) Math.sqrt(
 					textBounds.width() * textBounds.width()
 						+ textBounds.height() * textBounds.height());
-				textScale = canvas.getWidth() * 0.225f / diameter;
+				textScale = canvas.getWidth() * TEXT_SCALE_PCT / diameter;
 			}
 
 			float scale = textScale * mExpansionPercent;
 			canvas.scale(scale, scale);
 
-			// at mExpansionPercent = 1f, y = 18% of height
-			// at mExpansionPercent = 0f, y = 50% of height
-			float y = canvas.getHeight() * (0.5f - .32f * mExpansionPercent);
+			float a = TEXT_EXPANSION_Y_PCT_START;
+			float b = TEXT_EXPANSION_Y_PCT_START - TEXT_EXPANSION_Y_PCT_STOP;
+			float y = canvas.getHeight() * (a - b * mExpansionPercent);
 
 			canvas.translate(canvas.getWidth() / 2 / scale, y / scale);
 			canvas.drawText(text, 0, textBounds.height() / 2 * mExpansionPercent, paint);
+
 			canvas.restore();
 		}
 	}
@@ -124,6 +126,8 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 	}
 
 	/**
+	 * Used by animator in expandText()
+	 *
 	 * @hide
 	 */
 	public void setExpansion(float f) {
@@ -131,6 +135,8 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 	}
 
 	/**
+	 * Used by animator in expandText()
+	 *
 	 * @hide
 	 */
 	public float getExpansion() {
@@ -144,38 +150,6 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 			}
 		}
 		return false;
-	}
-
-	private String getStateArrayAsString(int[] state) {
-		StringBuilder sb = new StringBuilder("[");
-		for (int value : state) {
-			switch (value) {
-			case android.R.attr.state_window_focused:
-				sb.append("window_focused");
-				break;
-			case android.R.attr.state_enabled:
-				sb.append("enabled");
-				break;
-			case android.R.attr.state_selected:
-				sb.append("selected");
-				break;
-			case android.R.attr.state_accelerated:
-				sb.append("accelerated");
-				break;
-			case android.R.attr.state_pressed:
-				sb.append("pressed");
-				break;
-			default:
-				sb.append(Integer.toString(value));
-				break;
-			}
-			sb.append(", ");
-		}
-		if (sb.length() > 2) {
-			sb.delete(sb.length() - 2, sb.length());
-		}
-		sb.append("]");
-		return sb.toString();
 	}
 
 }

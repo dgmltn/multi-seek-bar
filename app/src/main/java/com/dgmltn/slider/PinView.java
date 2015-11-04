@@ -15,12 +15,13 @@ import com.dgmltn.slider.internal.AnimatedPinDrawable;
 public class PinView extends ImageView {
 
 	AnimatedPinDrawable pin;
-	float value;
+	float value = 0f;
 
 	public PinView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		pin = new AnimatedPinDrawable(context);
 		setImageDrawable(pin);
+		setValue(value);
 
 		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.PinView, 0, 0);
@@ -44,6 +45,7 @@ public class PinView extends ImageView {
 
 	public void setValue(float value) {
 		this.value = value;
+		this.setText(Integer.toString(Math.round(value)));
 	}
 
 	public void setTextColor(int color) {
@@ -52,18 +54,6 @@ public class PinView extends ImageView {
 
 	public int getTextColor() {
 		return pin.getTextColor();
-	}
-
-	/**
-	 * Move this pin so it's centered (or at least the point part of the pin is centered)
-	 * on the provided point.
-	 * @param point
-	 */
-	public void offsetTo(PointF point) {
-		float x = getMeasuredWidth() / 2;
-		float y = getMeasuredHeight() / 2;
-		offsetLeftAndRight((int)(point.x - x - getLeft()));
-		offsetTopAndBottom((int) (point.y - y - getTop()));
 	}
 
 }
