@@ -15,7 +15,7 @@
     tools:context=".MainActivity">
 
     <com.dgmltn.slider.PinView
-        android:id="@+id/pin2"
+        android:id="@+id/pin1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -25,6 +25,7 @@
         android:clickable="true"/>
 
     <com.dgmltn.slider.HorizontalSlider
+        android:id="@+id/slider1"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:padding="24dp"
@@ -40,9 +41,10 @@
         <com.dgmltn.slider.PinView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-        </com.dgmltn.slider.HorizontalSlider>
+    </com.dgmltn.slider.HorizontalSlider>
 
     <com.dgmltn.slider.ArcSlider
+        android:id="@+id/slider2"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:paddingTop="48dp"

@@ -1,10 +1,11 @@
 package com.dgmltn.slider;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.PointF;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -25,6 +26,8 @@ public class PinView extends ImageView {
 
 	AnimatedPinDrawable pin;
 	float value = 0f;
+	private String customText = null;
+	boolean useCustomText = false;
 
 	public PinView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -37,11 +40,25 @@ public class PinView extends ImageView {
 				thumbColor = ta.getColorStateList(R.styleable.PinView_thumbColor);
 			}
 			setImageTintList(thumbColor);
-			setTextColor(ta.getColor(R.styleable.AbsSlider_textColor, textColor));
+			setTextColor(ta.getColor(R.styleable.PinView_textColor, textColor));
+			if (ta.hasValue(R.styleable.PinView_android_text)) {
+				setText(ta.getString(R.styleable.PinView_android_text));
+			}
 			ta.recycle();
 		}
 
 		setValue(value);
+	}
+
+	public String getText() {
+		return customText;
+	}
+
+	public void setText(String text) {
+		useCustomText = true;
+		customText = text;
+		pin.setText(customText);
+		pin.invalidateSelf();
 	}
 
 	public void setTextColor(int color) {
@@ -54,9 +71,51 @@ public class PinView extends ImageView {
 	}
 
 	public void setValue(float value) {
+		if (this.value == value) {
+			return;
+		}
+
+		float oldVal = this.value;
 		this.value = value;
-		pin.setText(Integer.toString(Math.round(value)));
-		pin.invalidateSelf();
+
+		// Notify listeners before .setText, because one thing the listeners
+		// might want to do is set custom text.
+		if (listeners != null) {
+			for (OnValueChangedListener l : listeners) {
+				l.onValueChange(this, oldVal, value);
+			}
+		}
+
+		if (!useCustomText) {
+			pin.setText(Integer.toString(Math.round(value)));
+			pin.invalidateSelf();
+		}
+	}
+
+	private ArrayList<OnValueChangedListener> listeners;
+
+	public void addOnValueChangedListener(OnValueChangedListener listener) {
+		if (listeners == null) {
+			listeners = new ArrayList<>();
+		}
+		listeners.add(listener);
+	}
+
+	public void removeOnValueChangedListener(OnValueChangedListener listener) {
+		if (listeners != null) {
+			listeners.remove(listener);
+		}
+	}
+
+	public interface OnValueChangedListener {
+		/**
+		 * Called upon a change of the current value.
+		 *
+		 * @param pin    The PinView associated with this listener.
+		 * @param oldVal The previous value.
+		 * @param newVal The new value.
+		 */
+		void onValueChange(PinView pin, float oldVal, float newVal);
 	}
 
 }

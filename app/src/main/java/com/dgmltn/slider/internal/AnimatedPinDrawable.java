@@ -62,23 +62,17 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 
 		if (changed && isPressed != contains(stateSet, android.R.attr.state_pressed)) {
 			isPressed = !isPressed;
-			expandText(isPressed ? 0f : 1f);
+			if (text != null) {
+				expandText(isPressed ? 0f : 1f);
+			}
 		}
 
 		return changed;
 	}
 
-	public String getText() {
-		return text;
-	}
-
 	public void setText(String text) {
 		this.text = text;
 		textScale = 0f;
-	}
-
-	public int getTextColor() {
-		return paint.getColor();
 	}
 
 	public void setTextColor(int color) {
@@ -94,7 +88,7 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
 
-		if (mExpansionPercent >= 0) {
+		if (text != null && mExpansionPercent >= 0) {
 			// Recalculate text scaling if necessary
 			if (textScale == 0f) {
 				paint.getTextBounds(text, 0, text.length(), textBounds);

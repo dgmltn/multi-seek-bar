@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.StateSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +21,7 @@ import com.dgmltn.slider.R;
 /**
  * Created by doug on 11/1/15.
  */
-public abstract class AbsSlider extends ViewGroup {
+public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChangedListener {
 
 	private static final int INDIGO_500 = 0xff3f51b5;
 	private static final int DEFAULT_TRACK_OFF_COLOR = 0x42000000;
@@ -87,15 +86,20 @@ public abstract class AbsSlider extends ViewGroup {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 
-		// Don't create any thumbs automatically if the user created his own
+		// Don't create any thumbs automatically if the user created his own.
+		// Let's still listen to value changed.
 		if (getChildCount() != 0) {
 			thumbs = 0;
+			for (int i = 0; i < getChildCount(); i++) {
+				getChildAt(i).addOnValueChangedListener(this);
+			}
 		}
 		else {
 			for (int i = 0; i < thumbs; i++) {
 				PinView pin = new PinView(getContext(), null);
 				pin.setImageTintList(thumbColor);
 				pin.setTextColor(textColor);
+				pin.addOnValueChangedListener(this);
 				addView(pin);
 			}
 		}
@@ -121,7 +125,7 @@ public abstract class AbsSlider extends ViewGroup {
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		for (int i = 0; i < getChildCount(); i++) {
-			PinView child = (PinView) getChildAt(i);
+			PinView child = getChildAt(i);
 			getPointOnBar(mTmpPointF, child.getValue());
 			mTmpPointF.x -= child.getMeasuredWidth() / 2f;
 			mTmpPointF.y -= child.getMeasuredHeight() / 2f;
@@ -149,34 +153,19 @@ public abstract class AbsSlider extends ViewGroup {
 		return new MarginLayoutParams(getContext(), attrs);
 	}
 
-	/////////////////////////////////////////////////////////////////////////
-	// Accessors
-	/////////////////////////////////////////////////////////////////////////
-
-	public void setPinValue(int index, float value) {
-		if (index < 0 || index >= getChildCount()) {
-			return;
-		}
-		value = clamp(value);
-		PinView pin = getChildAt(index);
-		if (value != pin.getValue()) {
-			pin.setValue(value);
-			getPointOnBar(mTmpPointF, pin.getValue());
-			float dx = mTmpPointF.x - pin.getMeasuredWidth() / 2 - pin.getLeft();
-			float dy = mTmpPointF.y - pin.getMeasuredHeight() / 2 - pin.getTop();
-			pin.offsetLeftAndRight((int) dx);
-			pin.offsetTopAndBottom((int) dy);
-			invalidate();
-		}
-	}
-
-	private float clamp(float value) {
-		return value < 0 ? 0 : value > max ? max : value;
-	}
-
 	@Override
 	public PinView getChildAt(int index) {
 		return (PinView) super.getChildAt(index);
+	}
+
+	@Override
+	public void onValueChange(PinView pin, float oldVal, float newVal) {
+		getPointOnBar(mTmpPointF, newVal);
+		float dx = mTmpPointF.x - pin.getMeasuredWidth() / 2f - pin.getLeft();
+		float dy = mTmpPointF.y - pin.getMeasuredHeight() / 2f - pin.getTop();
+		pin.offsetLeftAndRight((int) dx);
+		pin.offsetTopAndBottom((int) dy);
+		invalidate();
 	}
 
 	/////////////////////////////////////////////////////////////////////////
@@ -211,7 +200,8 @@ public abstract class AbsSlider extends ViewGroup {
 				}
 			}
 			if (expanded > -1) {
-				getChildAt(expanded).setPressed(true);
+				PinView pin = getChildAt(expanded);
+				pin.setPressed(true);
 				cancelLongPress();
 				attemptClaimDrag();
 			}
@@ -220,7 +210,7 @@ public abstract class AbsSlider extends ViewGroup {
 		case MotionEvent.ACTION_MOVE:
 			if (expanded > -1) {
 				float value = getNearestBarValue(event.getX(), event.getY());
-				setPinValue(expanded, value);
+				getChildAt(expanded).setValue(value);
 			}
 			break;
 
@@ -233,7 +223,7 @@ public abstract class AbsSlider extends ViewGroup {
 				if (isDiscrete) {
 					value = Math.round(value);
 				}
-				setPinValue(expanded, value);
+				pin.setValue(value);
 				expanded = -1;
 			}
 			break;
