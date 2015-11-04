@@ -2,17 +2,20 @@
 <resources>
 
     <declare-styleable name="PinView">
-        <attr name="android:text" />
+        <attr name="value" format="float" />
+        <attr name="thumbColor" format="color" />
+        <attr name="textColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="AbsSlider">
         <attr name="max" format="integer" />
+        <attr name="thumbs" format="integer" />
         <attr name="hasTicks" format="boolean" />
         <attr name="isDiscrete" format="boolean" />
-        <attr name="thumbColor" format="color" />
+        <attr name="thumbColor" />
         <attr name="trackColor" format="color" />
         <attr name="tickColor" format="color" />
-        <attr name="textColor" format="color" />
+        <attr name="textColor" />
     </declare-styleable>
 
 </resources>

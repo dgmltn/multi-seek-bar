@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.StateSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,6 +38,7 @@ public abstract class AbsSlider extends ViewGroup {
 	private boolean hasTicks = true;
 	private boolean isDiscrete = true;
 	protected int max = 10;
+	protected int thumbs = 2;
 
 	// Colors
 	private ColorStateList trackColor = new ColorStateList(
@@ -62,6 +64,7 @@ public abstract class AbsSlider extends ViewGroup {
 		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.AbsSlider, 0, 0);
 			max = ta.getInteger(R.styleable.AbsSlider_max, max);
+			thumbs = ta.getInteger(R.styleable.AbsSlider_thumbs, thumbs);
 			hasTicks = ta.getBoolean(R.styleable.AbsSlider_hasTicks, hasTicks);
 			isDiscrete = ta.getBoolean(R.styleable.AbsSlider_isDiscrete, isDiscrete);
 			if (ta.hasValue(R.styleable.AbsSlider_trackColor)) {
@@ -78,7 +81,24 @@ public abstract class AbsSlider extends ViewGroup {
 		}
 
 		initTrack();
-		initPins();
+	}
+
+	@Override
+	protected void onFinishInflate() {
+		super.onFinishInflate();
+
+		// Don't create any thumbs automatically if the user created his own
+		if (getChildCount() != 0) {
+			thumbs = 0;
+		}
+		else {
+			for (int i = 0; i < thumbs; i++) {
+				PinView pin = new PinView(getContext(), null);
+				pin.setImageTintList(thumbColor);
+				pin.setTextColor(textColor);
+				addView(pin);
+			}
+		}
 	}
 
 	/////////////////////////////////////////////////////////////////////////
@@ -281,19 +301,6 @@ public abstract class AbsSlider extends ViewGroup {
 		mTrackOnPaint.setAntiAlias(true);
 		mTrackOnPaint.setColor(trackColor.getColorForState(SELECTED, trackColor.getDefaultColor()));
 		mTrackOnPaint.setStrokeWidth(TRACK_WIDTH_DP * density);
-	}
-
-	protected void initPins() {
-		if (getChildCount() != 0) {
-			return;
-		}
-
-		for (int i = 0; i < 2; i++) {
-			PinView pin = new PinView(getContext(), null);
-			pin.setImageTintList(thumbColor);
-			pin.setTextColor(textColor);
-			addView(pin);
-		}
 	}
 
 	@Override

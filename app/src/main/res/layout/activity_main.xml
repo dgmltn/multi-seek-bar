@@ -29,12 +29,18 @@
         android:layout_height="100dp"
         android:padding="24dp"
         app:isDiscrete="true"
-        app:hasTicks="true"
+        app:hasTicks="false"
+        app:max="20"
+        app:thumbs="3"
         app:thumbColor="@color/thumb"
         app:tickColor="#000000"
         app:trackColor="@color/track"
         app:textColor="#fff"
-        />
+        >
+        <com.dgmltn.slider.PinView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        </com.dgmltn.slider.HorizontalSlider>
 
     <com.dgmltn.slider.ArcSlider
         android:layout_width="match_parent"
