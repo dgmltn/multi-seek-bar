@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:padding="24dp"
-        app:isDiscrete="true"
+        app:style="continuous"
         app:hasTicks="false"
         app:max="20"
         app:thumbs="3"
@@ -50,6 +50,7 @@
         android:layout_height="200dp"
         android:paddingTop="48dp"
         android:paddingBottom="24dp"
+        app:style="discrete"
         />
 
 </LinearLayout>

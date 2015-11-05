@@ -1,5 +1,8 @@
 package com.dgmltn.slider.internal;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -9,8 +12,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.support.annotation.IntDef;
 import android.util.AttributeSet;
-import android.util.StateSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +31,19 @@ public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChan
 	private static final int DEFAULT_TICK_COLOR = Color.BLACK;
 	private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
 
-	private static float TRACK_WIDTH_DP = 2;
-	private static float TICK_RADIUS_DP = TRACK_WIDTH_DP / 2;
+	private static final float TOUCH_RADIUS_DP = 24;
+	private static final float TRACK_WIDTH_DP = 2;
+	private static final float TICK_RADIUS_DP = TRACK_WIDTH_DP / 2;
+
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({ STYLE_CONTINUOUS, STYLE_DISCRETE })
+	public @interface SliderStyle {}
+	public static final int STYLE_CONTINUOUS = 0;
+	public static final int STYLE_DISCRETE = 1;
 
 	// Bar properties
 	private boolean hasTicks = true;
-	private boolean isDiscrete = true;
+	private @SliderStyle int sliderStyle = STYLE_CONTINUOUS;
 	protected int max = 10;
 	protected int thumbs = 2;
 
@@ -54,7 +64,8 @@ public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChan
 			max = ta.getInteger(R.styleable.AbsSlider_max, max);
 			thumbs = ta.getInteger(R.styleable.AbsSlider_thumbs, thumbs);
 			hasTicks = ta.getBoolean(R.styleable.AbsSlider_hasTicks, hasTicks);
-			isDiscrete = ta.getBoolean(R.styleable.AbsSlider_isDiscrete, isDiscrete);
+			sliderStyle = ta.getInt(R.styleable.AbsSlider_style, sliderStyle) == 1
+				? STYLE_DISCRETE : STYLE_CONTINUOUS;
 
 			if (ta.hasValue(R.styleable.AbsSlider_trackColor)) {
 				trackColor = ta.getColorStateList(R.styleable.AbsSlider_trackColor);
@@ -96,6 +107,7 @@ public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChan
 		else {
 			for (int i = 0; i < thumbs; i++) {
 				PinView pin = new PinView(getContext(), null);
+				pin.setPinStyle(sliderStyle);
 				pin.setImageTintList(thumbColor);
 				pin.setTextColor(textColor);
 				pin.addOnValueChangedListener(this);
@@ -193,7 +205,7 @@ public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChan
 				if (d < dmin) {
 					dmin = d;
 					// 48dp touch region
-					if (d <= 24 * getResources().getDisplayMetrics().density) {
+					if (d <= TOUCH_RADIUS_DP * getResources().getDisplayMetrics().density) {
 						expanded = i;
 					}
 				}
@@ -219,7 +231,7 @@ public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChan
 				PinView pin = getChildAt(expanded);
 				pin.setPressed(false);
 				expanded = -1;
-				if (isDiscrete) {
+				if (sliderStyle == STYLE_DISCRETE) {
 					float value = Math.round(pin.getValue());
 					ObjectAnimator anim = ObjectAnimator.ofFloat(pin, "value", value).setDuration(100);
 					anim.setInterpolator(new DecelerateInterpolator());

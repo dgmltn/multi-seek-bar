@@ -2,6 +2,10 @@
 <resources>
 
     <declare-styleable name="PinView">
+        <attr name="style" format="enum">
+            <enum name="continuous" value="0" />
+            <enum name="discrete" value="1" />
+        </attr>
         <attr name="value" format="float" />
         <attr name="thumbColor" format="color" />
         <attr name="textColor" format="color" />
@@ -9,10 +13,10 @@
     </declare-styleable>
 
     <declare-styleable name="AbsSlider">
+        <attr name="style" />
         <attr name="max" format="integer" />
         <attr name="thumbs" format="integer" />
         <attr name="hasTicks" format="boolean" />
-        <attr name="isDiscrete" format="boolean" />
         <attr name="thumbColor" />
         <attr name="trackColor" format="color" />
         <attr name="tickColor" format="color" />
