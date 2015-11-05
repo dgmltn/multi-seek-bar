@@ -88,7 +88,6 @@ public class PinView extends ImageView {
 
 		if (!useCustomText) {
 			pin.setText(Integer.toString(Math.round(value)));
-			pin.invalidateSelf();
 		}
 	}
 

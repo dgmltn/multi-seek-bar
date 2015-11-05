@@ -1,5 +1,7 @@
 package com.dgmltn.slider.internal;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -14,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.animation.DecelerateInterpolator;
 
 import com.dgmltn.slider.PinView;
 import com.dgmltn.slider.R;
@@ -219,12 +222,13 @@ public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChan
 			if (expanded > -1) {
 				PinView pin = getChildAt(expanded);
 				pin.setPressed(false);
-				float value = pin.getValue();
-				if (isDiscrete) {
-					value = Math.round(value);
-				}
-				pin.setValue(value);
 				expanded = -1;
+				if (isDiscrete) {
+					float value = Math.round(pin.getValue());
+					ObjectAnimator anim = ObjectAnimator.ofFloat(pin, "value", value).setDuration(100);
+					anim.setInterpolator(new DecelerateInterpolator());
+					anim.start();
+				}
 			}
 			break;
 		}

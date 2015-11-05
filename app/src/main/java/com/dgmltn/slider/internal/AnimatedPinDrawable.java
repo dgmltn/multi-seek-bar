@@ -73,6 +73,7 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 	public void setText(String text) {
 		this.text = text;
 		textScale = 0f;
+		invalidateSelf();
 	}
 
 	public void setTextColor(int color) {
