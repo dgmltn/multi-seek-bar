@@ -1,6 +1,5 @@
 package com.dgmltn.slider.internal;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -26,10 +25,6 @@ import com.dgmltn.slider.R;
  */
 public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChangedListener {
 
-	private static final int INDIGO_500 = 0xff3f51b5;
-	private static final int DEFAULT_TRACK_OFF_COLOR = 0x42000000;
-	private static final int DEFAULT_TRACK_ON_COLOR = INDIGO_500;
-	private static final int DEFAULT_THUMB_COLOR = INDIGO_500;
 	private static final int DEFAULT_TICK_COLOR = Color.BLACK;
 	private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
 
@@ -43,18 +38,9 @@ public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChan
 	protected int thumbs = 2;
 
 	// Colors
-	private ColorStateList trackColor = new ColorStateList(
-		new int[][] {
-			new int[] { android.R.attr.state_selected },
-			StateSet.WILD_CARD
-		},
-		new int[] {
-			DEFAULT_TRACK_ON_COLOR,
-			DEFAULT_TRACK_OFF_COLOR
-		}
-	);
+	private ColorStateList trackColor;
 	private ColorStateList tickColor = ColorStateList.valueOf(DEFAULT_TICK_COLOR);
-	private ColorStateList thumbColor = ColorStateList.valueOf(DEFAULT_THUMB_COLOR);
+	private ColorStateList thumbColor;
 	private int textColor = DEFAULT_TEXT_COLOR;
 
 	public AbsSlider(Context context, AttributeSet attrs) {
@@ -69,15 +55,25 @@ public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChan
 			thumbs = ta.getInteger(R.styleable.AbsSlider_thumbs, thumbs);
 			hasTicks = ta.getBoolean(R.styleable.AbsSlider_hasTicks, hasTicks);
 			isDiscrete = ta.getBoolean(R.styleable.AbsSlider_isDiscrete, isDiscrete);
+
 			if (ta.hasValue(R.styleable.AbsSlider_trackColor)) {
 				trackColor = ta.getColorStateList(R.styleable.AbsSlider_trackColor);
 			}
+			else {
+				trackColor = getResources().getColorStateList(R.color.track);
+			}
+
 			if (ta.hasValue(R.styleable.AbsSlider_tickColor)) {
 				tickColor = ta.getColorStateList(R.styleable.AbsSlider_tickColor);
 			}
+
 			if (ta.hasValue(R.styleable.AbsSlider_thumbColor)) {
 				thumbColor = ta.getColorStateList(R.styleable.AbsSlider_thumbColor);
 			}
+			else {
+				thumbColor = getResources().getColorStateList(R.color.thumb);
+			}
+
 			textColor = ta.getColor(R.styleable.AbsSlider_textColor, textColor);
 			ta.recycle();
 		}
@@ -196,8 +192,8 @@ public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChan
 				float d = distance(pin.getValue(), event.getX(), event.getY());
 				if (d < dmin) {
 					dmin = d;
-					getChildAt(i).getHitRect(mTmpRect);
-					if (mTmpRect.contains((int) event.getX(), (int) event.getY())) {
+					// 48dp touch region
+					if (d <= 24 * getResources().getDisplayMetrics().density) {
 						expanded = i;
 					}
 				}

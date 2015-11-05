@@ -16,11 +16,12 @@
 
     <com.dgmltn.slider.PinView
         android:id="@+id/pin1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:background="#20000000"
+        android:scaleType="center"
         android:text="yay"
         android:clickable="true"/>
 

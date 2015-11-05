@@ -3,9 +3,9 @@ package com.dgmltn.slider;
 import java.util.ArrayList;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -17,30 +17,28 @@ import com.dgmltn.slider.internal.AnimatedPinDrawable;
  */
 public class PinView extends ImageView {
 
-	private static final int INDIGO_500 = 0xff3f51b5;
-	private static final int DEFAULT_THUMB_COLOR = INDIGO_500;
 	private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
 
-	private ColorStateList thumbColor = ColorStateList.valueOf(DEFAULT_THUMB_COLOR);
-	private int textColor = DEFAULT_TEXT_COLOR;
-
-	AnimatedPinDrawable pin;
+	Drawable drawable;
 	float value = 0f;
 	private String customText = null;
 	boolean useCustomText = false;
 
 	public PinView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		pin = new AnimatedPinDrawable(context);
-		setImageDrawable(pin);
+//		drawable = new AnimatedPinDrawable(context);
+		drawable = getResources().getDrawable(R.drawable.seekbar_thumb_material_anim);
+		setImageDrawable(drawable);
 
 		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.PinView, 0, 0);
 			if (ta.hasValue(R.styleable.PinView_thumbColor)) {
-				thumbColor = ta.getColorStateList(R.styleable.PinView_thumbColor);
+				setImageTintList(ta.getColorStateList(R.styleable.PinView_thumbColor));
 			}
-			setImageTintList(thumbColor);
-			setTextColor(ta.getColor(R.styleable.PinView_textColor, textColor));
+			else {
+				setImageTintList(getResources().getColorStateList(R.color.thumb));
+			}
+			setTextColor(ta.getColor(R.styleable.PinView_textColor, DEFAULT_TEXT_COLOR));
 			if (ta.hasValue(R.styleable.PinView_android_text)) {
 				setText(ta.getString(R.styleable.PinView_android_text));
 			}
@@ -57,13 +55,15 @@ public class PinView extends ImageView {
 	public void setText(String text) {
 		useCustomText = true;
 		customText = text;
-		pin.setText(customText);
-		pin.invalidateSelf();
+		if (drawable instanceof AnimatedPinDrawable) {
+			((AnimatedPinDrawable) drawable).setText(customText);
+		}
 	}
 
 	public void setTextColor(int color) {
-		textColor = color;
-		pin.setTextColor(color);
+		if (drawable instanceof AnimatedPinDrawable) {
+			((AnimatedPinDrawable) drawable).setTextColor(color);
+		}
 	}
 
 	public float getValue() {
@@ -86,8 +86,8 @@ public class PinView extends ImageView {
 			}
 		}
 
-		if (!useCustomText) {
-			pin.setText(Integer.toString(Math.round(value)));
+		if (!useCustomText && drawable instanceof AnimatedPinDrawable) {
+			((AnimatedPinDrawable) drawable).setText(Integer.toString(Math.round(value)));
 		}
 	}
 
