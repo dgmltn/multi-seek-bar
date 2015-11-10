@@ -1,9 +1,7 @@
-package com.dgmltn.slider
+package com.dgmltn.slider.demo
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.ImageView
-import com.dgmltn.slider.internal.AbsSlider
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,9 +15,9 @@ class MainActivity : AppCompatActivity() {
 
         //slider1.isEnabled = false;
 
-//        slider2.getChildAt(0).addOnValueChangedListener { pin, oldVal, newVal ->
-//            pin.text = Math.round(newVal + 50).toString()
-//        }
+        //        slider2.getChildAt(0).addOnValueChangedListener { pin, oldVal, newVal ->
+        //            pin.text = Math.round(newVal + 50).toString()
+        //        }
     }
 
 }
