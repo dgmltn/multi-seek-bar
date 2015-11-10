@@ -23,13 +23,13 @@ import com.dgmltn.slider.internal.Utils;
  * A simple View that wraps an AnimatedPinDrawable. Almost all of the functionality
  * is part of AnimatedPinDrawable.
  */
-public class PinView extends ImageView {
+public class ThumbView extends ImageView {
 
 	private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({ STYLE_CIRCLE, STYLE_PIN, STYLE_NOTHING })
-	public @interface PinStyle {
+	public @interface ThumbStyle {
 	}
 
 	public static final int STYLE_CIRCLE = 0;
@@ -37,66 +37,66 @@ public class PinView extends ImageView {
 	public static final int STYLE_NOTHING = 2;
 
 	private
-	@PinStyle
-	int pinStyle = STYLE_CIRCLE;
+	@ThumbStyle
+	int thumbStyle = STYLE_CIRCLE;
 
 	Drawable drawable = null;
 	float value = 0f;
 	private String customText = null;
 	boolean useCustomText = false;
 
-	public PinView(Context context, AttributeSet attrs) {
+	public ThumbView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		boolean clickable = true;
 
 		if (attrs != null) {
-			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.PinView, 0, 0);
+			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ThumbView, 0, 0);
 
-			pinStyle = validatePinStyle(ta.getInt(R.styleable.PinView_pin_style, pinStyle));
+			thumbStyle = validateThumbStyle(ta.getInt(R.styleable.ThumbView_thumb_style, thumbStyle));
 
-			if (ta.hasValue(R.styleable.PinView_thumbColor)) {
-				setImageTintList(ta.getColorStateList(R.styleable.PinView_thumbColor));
+			if (ta.hasValue(R.styleable.ThumbView_thumb_color)) {
+				setImageTintList(ta.getColorStateList(R.styleable.ThumbView_thumb_color));
 			}
 			else {
 				setImageTintList(generateDefaultColorStateListFromTheme(context));
 			}
 
-			setTextColor(ta.getColor(R.styleable.PinView_textColor, DEFAULT_TEXT_COLOR));
+			setTextColor(ta.getColor(R.styleable.ThumbView_thumb_textColor, DEFAULT_TEXT_COLOR));
 
-			if (ta.hasValue(R.styleable.PinView_android_text)) {
-				setText(ta.getString(R.styleable.PinView_android_text));
+			if (ta.hasValue(R.styleable.ThumbView_android_text)) {
+				setText(ta.getString(R.styleable.ThumbView_android_text));
 			}
 
-			setValue(ta.getFloat(R.styleable.PinView_value, value));
+			setValue(ta.getFloat(R.styleable.ThumbView_value, value));
 
-			clickable = ta.getBoolean(R.styleable.PinView_android_clickable, clickable);
+			clickable = ta.getBoolean(R.styleable.ThumbView_android_clickable, clickable);
 
 			ta.recycle();
 		}
 
-		setPinStyle(pinStyle);
+		setThumbStyle(thumbStyle);
 		setValue(value);
 		setClickable(clickable);
 	}
 
 	public
-	@PinStyle
-	int getPinStyle() {
-		return pinStyle;
+	@ThumbStyle
+	int getThumbStyle() {
+		return thumbStyle;
 	}
 
 	public static
-	@PinStyle
-	int validatePinStyle(int s) {
+	@ThumbStyle
+	int validateThumbStyle(int s) {
 		return (s == STYLE_PIN || s == STYLE_NOTHING) ? s : STYLE_CIRCLE;
 	}
 
-	public void setPinStyle(@PinStyle int pinStyle) {
-		this.pinStyle = pinStyle;
+	public void setThumbStyle(@ThumbStyle int thumbStyle) {
+		this.thumbStyle = thumbStyle;
 		drawable =
-			pinStyle == STYLE_PIN ? new AnimatedPinDrawable(getContext())
-				: pinStyle == STYLE_NOTHING ? null
+			thumbStyle == STYLE_PIN ? new AnimatedPinDrawable(getContext())
+				: thumbStyle == STYLE_NOTHING ? null
 					: ContextCompat.getDrawable(getContext(), R.drawable.seekbar_thumb_material_anim);
 		setImageDrawable(drawable);
 	}
@@ -179,11 +179,11 @@ public class PinView extends ImageView {
 		/**
 		 * Called upon a change of the current value.
 		 *
-		 * @param pin    The PinView associated with this listener.
+		 * @param thumb  The ThumbView associated with this listener.
 		 * @param oldVal The previous value.
 		 * @param newVal The new value.
 		 */
-		void onValueChange(PinView pin, float oldVal, float newVal);
+		void onValueChange(ThumbView thumb, float oldVal, float newVal);
 	}
 
 }

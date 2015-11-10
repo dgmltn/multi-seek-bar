@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="PinView">
-        <attr name="pin_style" format="enum">
+    <declare-styleable name="ThumbView">
+        <attr name="thumb_style" format="enum">
             <enum name="circle" value="0" />
             <enum name="pin" value="1" />
             <enum name="nothing" value="2" />
         </attr>
+        <attr name="thumb_color" format="color" />
+        <attr name="thumb_textColor" format="color" />
         <attr name="value" format="float" />
-        <attr name="thumbColor" format="color" />
-        <attr name="textColor" format="color" />
         <attr name="android:text" />
         <attr name="android:clickable" />
     </declare-styleable>
@@ -24,10 +24,9 @@
         <attr name="hasTicks" format="boolean" />
         <attr name="trackColor" format="color" />
         <attr name="tickColor" format="color" />
-
-        <attr name="pin_style" />
-        <attr name="pin_thumbColor" format="color" />
-        <attr name="pin_textColor" format="color" />
+        <attr name="thumb_style" />
+        <attr name="thumb_color" />
+        <attr name="thumb_textColor" />
     </declare-styleable>
 
 </resources>

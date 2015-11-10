@@ -14,10 +14,9 @@
     android:clipToPadding="false"
     tools:context=".MainActivity">
 
-    <!-- PinView -->
-    <!--
-    <com.dgmltn.slider.PinView
-        android:id="@+id/pin1"
+    <!-- ThumbView -->
+    <com.dgmltn.slider.ThumbView
+        android:id="@+id/thumb1"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center"
@@ -25,8 +24,7 @@
         android:background="#20000000"
         android:scaleType="center"
         android:text="yay"
-        app:pin_style="pin"/>
-    -->
+        app:thumb_style="pin"/>
 
     <SeekBar
         android:layout_width="match_parent"
@@ -53,23 +51,23 @@
         android:padding="24dp"
         />
 
-    <!-- HorizontalSlider with explicitly defined PinView -->
+    <!-- HorizontalSlider with explicitly defined ThumbView -->
     <com.dgmltn.slider.HorizontalSlider
         android:id="@+id/hslider2"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:padding="24dp"
         >
-        <com.dgmltn.slider.PinView
+        <com.dgmltn.slider.ThumbView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:value="50"/>
-        <com.dgmltn.slider.PinView
+        <com.dgmltn.slider.ThumbView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="false"
             app:value="100"
-            app:pin_style="nothing"/>
+            app:thumb_style="nothing"/>
     </com.dgmltn.slider.HorizontalSlider>
 
     <!-- ArcSlider -->
