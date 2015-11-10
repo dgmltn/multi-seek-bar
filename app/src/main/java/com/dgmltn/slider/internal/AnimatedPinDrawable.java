@@ -10,6 +10,7 @@ import android.graphics.drawable.AnimatedStateListDrawable;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
+import android.util.StateSet;
 import android.view.animation.OvershootInterpolator;
 
 import com.dgmltn.slider.R;
@@ -22,8 +23,8 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 	private static final int STATE_COLLAPSED_ID = 1;
 	private static final int STATE_EXPANDED_ID = 2;
 
-	private static final int[] STATE_SET_UNPRESSED = new int[] { -android.R.attr.state_pressed };
 	private static final int[] STATE_SET_PRESSED = new int[] { android.R.attr.state_pressed };
+	private static final int[] STATE_SET_UNPRESSED = StateSet.WILD_CARD;
 
 	private TextPaint paint = new TextPaint();
 	private boolean isPressed = false;
@@ -44,8 +45,8 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 		AnimatedVectorDrawable collapsing = (AnimatedVectorDrawable) context
 			.getDrawable(R.drawable.pin_expanded_to_collapsed_animation);
 
-		addState(STATE_SET_UNPRESSED, collapsed, STATE_COLLAPSED_ID);
 		addState(STATE_SET_PRESSED, expanded, STATE_EXPANDED_ID);
+		addState(STATE_SET_UNPRESSED, collapsed, STATE_COLLAPSED_ID);
 		addTransition(STATE_COLLAPSED_ID, STATE_EXPANDED_ID, expanding, false);
 		addTransition(STATE_EXPANDED_ID, STATE_COLLAPSED_ID, collapsing, false);
 
