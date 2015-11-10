@@ -4,6 +4,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -78,6 +79,27 @@ public class ThumbView extends ImageView {
 		setThumbStyle(thumbStyle);
 		setValue(value);
 		setClickable(clickable);
+	}
+
+	@Override
+	protected void drawableStateChanged() {
+		super.drawableStateChanged();
+		doHackyInvalidateThing();
+	}
+
+	// Sony screwed up their animations in general, but this makes it mostly better.
+	// They did something that makes collapse animations take MUCH longer.
+	// Without this, the animation of the pin collapse freezes just after it starts.
+	private void doHackyInvalidateThing() {
+		int duration = getResources().getInteger(android.R.integer.config_mediumAnimTime);
+		ObjectAnimator.ofInt(new Object() {
+			public int getNothing() {
+				return 0;
+			}
+			public void setNothing(int nohting) {
+				invalidate();
+			}
+		}, "nothing", 0, 1).setDuration(duration).start();
 	}
 
 	public
