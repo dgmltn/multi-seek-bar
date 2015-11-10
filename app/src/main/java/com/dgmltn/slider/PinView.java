@@ -1,5 +1,7 @@
 package com.dgmltn.slider;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
 import android.content.Context;
@@ -7,13 +9,13 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.IntDef;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.StateSet;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.dgmltn.slider.internal.AbsSlider;
 import com.dgmltn.slider.internal.AnimatedPinDrawable;
 import com.dgmltn.slider.internal.Utils;
 
@@ -25,11 +27,20 @@ public class PinView extends ImageView {
 
 	private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
 
-	private
-	@AbsSlider.SliderStyle
-	int pinStyle = AbsSlider.STYLE_CONTINUOUS;
+	@Retention(RetentionPolicy.SOURCE)
+	@IntDef({ STYLE_CIRCLE, STYLE_PIN, STYLE_NOTHING })
+	public @interface PinStyle {
+	}
 
-	Drawable drawable;
+	public static final int STYLE_CIRCLE = 0;
+	public static final int STYLE_PIN = 1;
+	public static final int STYLE_NOTHING = 2;
+
+	private
+	@PinStyle
+	int pinStyle = STYLE_CIRCLE;
+
+	Drawable drawable = null;
 	float value = 0f;
 	private String customText = null;
 	boolean useCustomText = false;
@@ -37,11 +48,12 @@ public class PinView extends ImageView {
 	public PinView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
+		boolean clickable = true;
+
 		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.PinView, 0, 0);
 
-			pinStyle = ta.getInt(R.styleable.AbsSlider_style, pinStyle) == 1
-				? AbsSlider.STYLE_DISCRETE : AbsSlider.STYLE_CONTINUOUS;
+			pinStyle = validatePinStyle(ta.getInt(R.styleable.PinView_pin_style, pinStyle));
 
 			if (ta.hasValue(R.styleable.PinView_thumbColor)) {
 				setImageTintList(ta.getColorStateList(R.styleable.PinView_thumbColor));
@@ -58,24 +70,34 @@ public class PinView extends ImageView {
 
 			setValue(ta.getFloat(R.styleable.PinView_value, value));
 
+			clickable = ta.getBoolean(R.styleable.PinView_android_clickable, clickable);
+
 			ta.recycle();
 		}
 
 		setPinStyle(pinStyle);
 		setValue(value);
+		setClickable(clickable);
 	}
 
 	public
-	@AbsSlider.SliderStyle
+	@PinStyle
 	int getPinStyle() {
 		return pinStyle;
 	}
 
-	public void setPinStyle(@AbsSlider.SliderStyle int pinStyle) {
+	public static
+	@PinStyle
+	int validatePinStyle(int s) {
+		return (s == STYLE_PIN || s == STYLE_NOTHING) ? s : STYLE_CIRCLE;
+	}
+
+	public void setPinStyle(@PinStyle int pinStyle) {
 		this.pinStyle = pinStyle;
-		drawable = pinStyle == AbsSlider.STYLE_DISCRETE
-			? new AnimatedPinDrawable(getContext())
-			: ContextCompat.getDrawable(getContext(), R.drawable.seekbar_thumb_material_anim);
+		drawable =
+			pinStyle == STYLE_PIN ? new AnimatedPinDrawable(getContext())
+				: pinStyle == STYLE_NOTHING ? null
+					: ContextCompat.getDrawable(getContext(), R.drawable.seekbar_thumb_material_anim);
 		setImageDrawable(drawable);
 	}
 
@@ -86,13 +108,13 @@ public class PinView extends ImageView {
 	public void setText(String text) {
 		useCustomText = true;
 		customText = text;
-		if (drawable instanceof AnimatedPinDrawable) {
+		if (drawable != null && drawable instanceof AnimatedPinDrawable) {
 			((AnimatedPinDrawable) drawable).setText(customText);
 		}
 	}
 
 	public void setTextColor(int color) {
-		if (drawable instanceof AnimatedPinDrawable) {
+		if (drawable != null && drawable instanceof AnimatedPinDrawable) {
 			((AnimatedPinDrawable) drawable).setTextColor(color);
 		}
 	}
@@ -117,7 +139,7 @@ public class PinView extends ImageView {
 			}
 		}
 
-		if (!useCustomText && drawable instanceof AnimatedPinDrawable) {
+		if (!useCustomText && drawable != null && drawable instanceof AnimatedPinDrawable) {
 			((AnimatedPinDrawable) drawable).setText(Integer.toString(Math.round(value)));
 		}
 	}

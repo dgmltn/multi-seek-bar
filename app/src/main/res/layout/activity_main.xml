@@ -25,7 +25,7 @@
         android:background="#20000000"
         android:scaleType="center"
         android:text="yay"
-        android:clickable="true"/>
+        app:pin_style="pin"/>
     -->
 
     <SeekBar
@@ -62,11 +62,14 @@
         >
         <com.dgmltn.slider.PinView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:value="50"/>
         <com.dgmltn.slider.PinView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:value="50"/>
+            android:clickable="false"
+            app:value="100"
+            app:pin_style="nothing"/>
     </com.dgmltn.slider.HorizontalSlider>
 
     <!-- ArcSlider -->

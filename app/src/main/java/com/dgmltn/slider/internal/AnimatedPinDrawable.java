@@ -99,6 +99,8 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 				textScale = canvas.getWidth() * TEXT_SCALE_PCT / diameter;
 			}
 
+			canvas.save();
+
 			float scale = textScale * mExpansionPercent;
 			canvas.scale(scale, scale);
 
