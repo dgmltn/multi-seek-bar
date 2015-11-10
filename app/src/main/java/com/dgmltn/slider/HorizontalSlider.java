@@ -27,7 +27,7 @@ public class HorizontalSlider extends AbsSlider {
 
 		mLeftX = getPaddingLeft();
 		mRightX = w - getPaddingRight();
-		mY = h - getPaddingBottom();
+		mY = (getPaddingTop() + h - getPaddingBottom()) / 2;
 	}
 
 	@Override

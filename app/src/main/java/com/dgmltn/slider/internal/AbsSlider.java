@@ -11,9 +11,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
-import android.graphics.Rect;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
+import android.util.StateSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,15 +37,18 @@ public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChan
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({ STYLE_CONTINUOUS, STYLE_DISCRETE })
-	public @interface SliderStyle {}
+	public @interface SliderStyle {
+	}
 	public static final int STYLE_CONTINUOUS = 0;
 	public static final int STYLE_DISCRETE = 1;
 
 	// Bar properties
-	private boolean hasTicks = true;
-	private @SliderStyle int sliderStyle = STYLE_CONTINUOUS;
-	protected int max = 10;
-	protected int thumbs = 2;
+	private boolean hasTicks = false;
+	private
+	@SliderStyle
+	int sliderStyle = STYLE_CONTINUOUS;
+	protected int max = 100;
+	protected int thumbs = 1;
 
 	// Colors
 	private ColorStateList trackColor;
@@ -71,7 +74,7 @@ public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChan
 				trackColor = ta.getColorStateList(R.styleable.AbsSlider_trackColor);
 			}
 			else {
-				trackColor = getResources().getColorStateList(R.color.track);
+				trackColor = generateDefaultTrackColorStateListFromTheme(context);
 			}
 
 			if (ta.hasValue(R.styleable.AbsSlider_tickColor)) {
@@ -82,7 +85,7 @@ public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChan
 				thumbColor = ta.getColorStateList(R.styleable.AbsSlider_thumbColor);
 			}
 			else {
-				thumbColor = getResources().getColorStateList(R.color.thumb);
+				thumbColor = PinView.generateDefaultColorStateListFromTheme(context);
 			}
 
 			textColor = ta.getColor(R.styleable.AbsSlider_textColor, textColor);
@@ -114,6 +117,28 @@ public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChan
 				addView(pin);
 			}
 		}
+	}
+
+	public static ColorStateList generateDefaultTrackColorStateListFromTheme(Context context) {
+		int[][] states = new int[][] {
+			SELECTED_STATE_SET,
+			ENABLED_STATE_SET,
+			StateSet.WILD_CARD
+		};
+
+		// This is an approximation of the track colors derived from Lollipop resources
+		boolean isLightTheme = Utils.isLightTheme(context);
+		int enabled = isLightTheme ? 0x66000000 : 0x85ffffff;
+
+		int[] colors = new int[] {
+			Utils.getThemeColor(context, android.R.attr.colorControlActivated),
+			enabled,
+			0x420000ff //TODO: get this from a theme attr?
+		};
+
+//		ContextCompat.getColor(context, R.color.track_color),
+
+		return new ColorStateList(states, colors);
 	}
 
 	/////////////////////////////////////////////////////////////////////////
@@ -277,10 +302,6 @@ public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChan
 	protected Paint mTickPaint;
 
 	PointF mTmpPointF = new PointF();
-	Rect mTmpRect = new Rect();
-
-	private static final int[] SELECTED = new int[] { android.R.attr.state_selected };
-	private static final int[] ACTIVATED = new int[] { android.R.attr.state_activated };
 
 	protected void initTrack() {
 		float density = getResources().getDisplayMetrics().density;
@@ -289,19 +310,19 @@ public abstract class AbsSlider extends ViewGroup implements PinView.OnValueChan
 		mTrackOffPaint = new Paint();
 		mTrackOffPaint.setAntiAlias(true);
 		mTrackOffPaint.setStyle(Paint.Style.STROKE);
-		mTrackOffPaint.setColor(trackColor.getColorForState(ACTIVATED, trackColor.getDefaultColor()));
+		mTrackOffPaint.setColor(trackColor.getColorForState(ENABLED_STATE_SET, trackColor.getDefaultColor()));
 		mTrackOffPaint.setStrokeWidth(TRACK_WIDTH_DP * density);
 
 		mTickPaint = new Paint();
 		mTickPaint.setAntiAlias(true);
-		mTickPaint.setColor(tickColor.getColorForState(ACTIVATED, tickColor.getDefaultColor()));
+		mTickPaint.setColor(tickColor.getColorForState(ENABLED_STATE_SET, tickColor.getDefaultColor()));
 
 		// Initialize the paint, set values
 		mTrackOnPaint = new Paint();
 		mTrackOnPaint.setStrokeCap(Paint.Cap.ROUND);
 		mTrackOnPaint.setStyle(Paint.Style.STROKE);
 		mTrackOnPaint.setAntiAlias(true);
-		mTrackOnPaint.setColor(trackColor.getColorForState(SELECTED, trackColor.getDefaultColor()));
+		mTrackOnPaint.setColor(trackColor.getColorForState(SELECTED_STATE_SET, trackColor.getDefaultColor()));
 		mTrackOnPaint.setStrokeWidth(TRACK_WIDTH_DP * density);
 	}
 

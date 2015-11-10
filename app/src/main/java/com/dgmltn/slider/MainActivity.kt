@@ -7,9 +7,9 @@ import com.dgmltn.slider.internal.AbsSlider
 
 class MainActivity : AppCompatActivity() {
 
-    val pin1: PinView by lazy { findViewById(R.id.pin1) as PinView }
-    val slider1: HorizontalSlider by lazy { findViewById(R.id.slider1) as HorizontalSlider }
-    val slider2: ArcSlider by lazy { findViewById(R.id.slider2) as ArcSlider }
+    //val pin1: PinView by lazy { findViewById(R.id.pin1) as PinView }
+    //val slider1: HorizontalSlider by lazy { findViewById(R.id.slider1) as HorizontalSlider }
+    //val slider2: ArcSlider by lazy { findViewById(R.id.slider2) as ArcSlider }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,9 +17,9 @@ class MainActivity : AppCompatActivity() {
 
         //slider1.isEnabled = false;
 
-        slider2.getChildAt(0).addOnValueChangedListener { pin, oldVal, newVal ->
-            pin.text = Math.round(newVal + 50).toString()
-        }
+//        slider2.getChildAt(0).addOnValueChangedListener { pin, oldVal, newVal ->
+//            pin.text = Math.round(newVal + 50).toString()
+//        }
     }
 
 }

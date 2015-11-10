@@ -3,14 +3,19 @@ package com.dgmltn.slider;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.StateSet;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.dgmltn.slider.internal.AbsSlider;
 import com.dgmltn.slider.internal.AnimatedPinDrawable;
+import com.dgmltn.slider.internal.Utils;
 
 /**
  * A simple View that wraps an AnimatedPinDrawable. Almost all of the functionality
@@ -20,7 +25,9 @@ public class PinView extends ImageView {
 
 	private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
 
-	private @AbsSlider.SliderStyle int pinStyle = AbsSlider.STYLE_CONTINUOUS;
+	private
+	@AbsSlider.SliderStyle
+	int pinStyle = AbsSlider.STYLE_CONTINUOUS;
 
 	Drawable drawable;
 	float value = 0f;
@@ -40,12 +47,17 @@ public class PinView extends ImageView {
 				setImageTintList(ta.getColorStateList(R.styleable.PinView_thumbColor));
 			}
 			else {
-				setImageTintList(getResources().getColorStateList(R.color.thumb));
+				setImageTintList(generateDefaultColorStateListFromTheme(context));
 			}
+
 			setTextColor(ta.getColor(R.styleable.PinView_textColor, DEFAULT_TEXT_COLOR));
+
 			if (ta.hasValue(R.styleable.PinView_android_text)) {
 				setText(ta.getString(R.styleable.PinView_android_text));
 			}
+
+			setValue(ta.getFloat(R.styleable.PinView_value, value));
+
 			ta.recycle();
 		}
 
@@ -53,7 +65,9 @@ public class PinView extends ImageView {
 		setValue(value);
 	}
 
-	public @AbsSlider.SliderStyle int getPinStyle() {
+	public
+	@AbsSlider.SliderStyle
+	int getPinStyle() {
 		return pinStyle;
 	}
 
@@ -61,7 +75,7 @@ public class PinView extends ImageView {
 		this.pinStyle = pinStyle;
 		drawable = pinStyle == AbsSlider.STYLE_DISCRETE
 			? new AnimatedPinDrawable(getContext())
-			: getResources().getDrawable(R.drawable.seekbar_thumb_material_anim);
+			: ContextCompat.getDrawable(getContext(), R.drawable.seekbar_thumb_material_anim);
 		setImageDrawable(drawable);
 	}
 
@@ -121,6 +135,22 @@ public class PinView extends ImageView {
 		if (listeners != null) {
 			listeners.remove(listener);
 		}
+	}
+
+	public static ColorStateList generateDefaultColorStateListFromTheme(Context context) {
+		int[][] states = new int[][] {
+			View.PRESSED_STATE_SET,
+			View.ENABLED_STATE_SET,
+			StateSet.WILD_CARD
+		};
+
+		int[] colors = new int[] {
+			Utils.getThemeColor(context, android.R.attr.colorControlActivated),
+			Utils.getThemeColor(context, android.R.attr.colorControlActivated),
+			0x42000000 //TODO: get this from a theme attr?
+		};
+
+		return new ColorStateList(states, colors);
 	}
 
 	public interface OnValueChangedListener {

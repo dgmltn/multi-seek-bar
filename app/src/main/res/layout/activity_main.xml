@@ -14,6 +14,8 @@
     android:clipToPadding="false"
     tools:context=".MainActivity">
 
+    <!-- PinView -->
+    <!--
     <com.dgmltn.slider.PinView
         android:id="@+id/pin1"
         android:layout_width="48dp"
@@ -24,26 +26,51 @@
         android:scaleType="center"
         android:text="yay"
         android:clickable="true"/>
+    -->
 
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="16dp"
+        android:background="#10000000"
+        android:padding="24dp"
+        />
+
+    <!-- basic HorizontalSlider -->
     <com.dgmltn.slider.HorizontalSlider
-        android:id="@+id/slider1"
+        android:id="@+id/hslider1"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="#10000000"
+        android:padding="24dp"
+        app:thumbs="2"
+        />
+
+    <SeekBar
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginBottom="16dp"
+        android:padding="24dp"
+        />
+
+    <!-- HorizontalSlider with explicitly defined PinView -->
+    <com.dgmltn.slider.HorizontalSlider
+        android:id="@+id/hslider2"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:padding="24dp"
-        app:style="continuous"
-        app:hasTicks="false"
-        app:max="20"
-        app:thumbs="3"
-        app:thumbColor="@color/thumb"
-        app:tickColor="#000000"
-        app:trackColor="@color/track"
-        app:textColor="#fff"
         >
         <com.dgmltn.slider.PinView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+        <com.dgmltn.slider.PinView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:value="50"/>
     </com.dgmltn.slider.HorizontalSlider>
 
+    <!-- ArcSlider -->
+    <!--
     <com.dgmltn.slider.ArcSlider
         android:id="@+id/slider2"
         android:layout_width="match_parent"
@@ -52,5 +79,6 @@
         android:paddingBottom="24dp"
         app:style="discrete"
         />
+     -->
 
 </LinearLayout>
