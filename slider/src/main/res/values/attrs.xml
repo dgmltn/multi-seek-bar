@@ -29,4 +29,9 @@
         <attr name="thumb_textColor" />
     </declare-styleable>
 
+    <declare-styleable name="ArcSlider">
+        <attr name="arc_start" format="integer" />
+        <attr name="arc_sweep" format="integer" />
+    </declare-styleable>
+
 </resources>
