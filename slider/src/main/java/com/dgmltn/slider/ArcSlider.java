@@ -37,6 +37,12 @@ public class ArcSlider extends AbsSlider {
 	}
 
 	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+		requestLayout();
+	}
+
+	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		super.onLayout(changed, left, top, right, bottom);
 

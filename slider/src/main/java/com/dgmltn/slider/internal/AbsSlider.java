@@ -150,6 +150,14 @@ public abstract class AbsSlider extends ViewGroup implements ThumbView.OnValueCh
 		return new ColorStateList(states, colors);
 	}
 
+	public int getMax() {
+		return max;
+	}
+
+	public void setMax(int max) {
+		this.max = max;
+	}
+
 	/////////////////////////////////////////////////////////////////////////
 	// Layout
 	/////////////////////////////////////////////////////////////////////////
@@ -252,6 +260,7 @@ public abstract class AbsSlider extends ViewGroup implements ThumbView.OnValueCh
 				thumb.setPressed(true);
 				cancelLongPress();
 				attemptClaimDrag();
+				onStartTrackingTouch();
 			}
 			break;
 
@@ -267,6 +276,7 @@ public abstract class AbsSlider extends ViewGroup implements ThumbView.OnValueCh
 			if (expanded > -1) {
 				ThumbView thumb = getChildAt(expanded);
 				thumb.setPressed(false);
+				onStopTrackingTouch();
 				expanded = -1;
 				if (sliderStyle == STYLE_DISCRETE) {
 					float value = Math.round(thumb.getValue());
@@ -367,6 +377,58 @@ public abstract class AbsSlider extends ViewGroup implements ThumbView.OnValueCh
 			canvas.drawCircle(mTmpPointF.x, mTmpPointF.y, TICK_RADIUS_DP * density, mTickPaint);
 		}
 	}
+
+	/////////////////////////////////////////////////////////////////////////
+	// OnSliderChangeListener
+	/////////////////////////////////////////////////////////////////////////
+
+	/**
+	 * A callback that notifies clients when the progress level has been
+	 * changed. This includes changes that were initiated by the user through a
+	 * touch gesture or arrow key/trackball as well as changes that were initiated
+	 * programmatically.
+	 */
+	public interface OnSliderChangeListener {
+		/**
+		 * Notification that the user has started a touch gesture.
+		 * @param slider The SeekBar in which the touch gesture began
+		 */
+		void onStartTrackingTouch(AbsSlider slider);
+
+		/**
+		 * Notification that the user has finished a touch gesture.
+		 * @param slider The SeekBar in which the touch gesture began
+		 */
+		void onStopTrackingTouch(AbsSlider slider);
+	}
+
+	private OnSliderChangeListener mOnSeekBarChangeListener;
+
+	/**
+	 * Sets a listener to receive notifications of changes to the SeekBar's progress level. Also
+	 * provides notifications of when the user starts and stops a touch gesture within the SeekBar.
+	 *
+	 * @param l The seek bar notification listener
+	 */
+	public void setOnSliderChangeListener(OnSliderChangeListener l) {
+		mOnSeekBarChangeListener = l;
+	}
+
+	void onStartTrackingTouch() {
+		if (mOnSeekBarChangeListener != null) {
+			mOnSeekBarChangeListener.onStartTrackingTouch(this);
+		}
+	}
+
+	void onStopTrackingTouch() {
+		if (mOnSeekBarChangeListener != null) {
+			mOnSeekBarChangeListener.onStopTrackingTouch(this);
+		}
+	}
+
+	/////////////////////////////////////////////////////////////////////////
+	// Abstract Methods
+	/////////////////////////////////////////////////////////////////////////
 
 	/**
 	 * Draw the connecting line between the two thumbs in RangeBar.
