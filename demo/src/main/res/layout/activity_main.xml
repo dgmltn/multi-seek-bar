@@ -30,21 +30,49 @@
             android:text="yay"
             app:thumb_style="pin" />
 
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginBottom="16dp"
-            android:background="#10000000"
-            android:padding="24dp" />
-
         <!-- basic HorizontalSlider -->
-        <com.dgmltn.slider.HorizontalSlider
-            android:id="@+id/hslider1"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="#10000000"
-            android:padding="24dp"
-            app:thumbs="2" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#10000000">
+
+            <com.dgmltn.slider.HorizontalSlider
+                android:id="@+id/hslider1"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="24dp"
+                app:thumbs="2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:text="Horizontal Slider (with 2 thumbs)"/>
+
+        </FrameLayout>
+
+        <!-- basic HorizontalSlider (official) -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#10000000">
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="24dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:text="Basic Horizontal Slider (official)"/>
+
+        </FrameLayout>
 
         <SeekBar
             android:layout_width="match_parent"

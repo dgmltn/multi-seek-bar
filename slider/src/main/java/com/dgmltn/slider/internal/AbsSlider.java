@@ -138,15 +138,13 @@ public abstract class AbsSlider extends ViewGroup implements ThumbView.OnValueCh
 
 		// This is an approximation of the track colors derived from Lollipop resources
 		boolean isLightTheme = Utils.isLightTheme(context);
-		int enabled = isLightTheme ? 0x66000000 : 0x85ffffff;
+		int enabled = isLightTheme ? 0x28181818 : 0x85ffffff;
 
 		int[] colors = new int[] {
 			Utils.getThemeColor(context, android.R.attr.colorControlActivated),
 			enabled,
-			0x420000ff //TODO: get this from a theme attr?
+			0x14181818 //TODO: get this from a theme attr?
 		};
-
-//		ContextCompat.getColor(context, R.color.track_color),
 
 		return new ColorStateList(states, colors);
 	}
