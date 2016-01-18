@@ -25,73 +25,165 @@
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
             android:background="#20000000"
             android:scaleType="center"
             android:text="yay"
             app:thumb_style="pin" />
 
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginBottom="16dp"
-            android:background="#10000000"
-            android:padding="24dp" />
-
         <!-- basic HorizontalSlider -->
-        <com.dgmltn.slider.HorizontalSlider
-            android:id="@+id/hslider1"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:background="#10000000"
-            android:padding="24dp"
-            app:thumbs="2" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#10000000">
 
-        <SeekBar
+            <com.dgmltn.slider.HorizontalSlider
+                android:id="@+id/hslider1"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="24dp"
+                app:thumbs="2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:textSize="12sp"
+                android:text="Horizontal Slider (with 2 thumbs)"/>
+
+        </FrameLayout>
+
+        <!-- basic HorizontalSlider (official) -->
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginBottom="16dp"
-            android:padding="24dp" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#10000000">
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="24dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:textSize="12sp"
+                android:text="Basic Horizontal Slider (AppCompat)"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+
+            <android.support.v7.widget.AppCompatSeekBar
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="24dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:textSize="12sp"
+                android:text="Basic Horizontal Slider (AppCompat)"/>
+
+        </FrameLayout>
 
         <!-- HorizontalSlider with explicitly defined ThumbView -->
-        <com.dgmltn.slider.HorizontalSlider
-            android:id="@+id/hslider2"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:padding="24dp">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
 
-            <com.dgmltn.slider.ThumbView
+            <com.dgmltn.slider.HorizontalSlider
+                android:id="@+id/hslider2"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="24dp">
+
+                <com.dgmltn.slider.ThumbView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:value="50" />
+
+                <com.dgmltn.slider.ThumbView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    app:thumb_style="nothing"
+                    app:value="100" />
+            </com.dgmltn.slider.HorizontalSlider>
+
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:value="50" />
+                android:layout_gravity="top|left"
+                android:textSize="12sp"
+                android:text="HorizontalSlider with explicitly defined ThumbView"/>
 
-            <com.dgmltn.slider.ThumbView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="false"
-                app:thumb_style="nothing"
-                app:value="100" />
-        </com.dgmltn.slider.HorizontalSlider>
+        </FrameLayout>
 
         <!-- ArcSlider -->
-        <com.dgmltn.slider.ArcSlider
-            android:id="@+id/arcslider1"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:paddingBottom="24dp"
-            android:paddingTop="48dp"
-            app:style="discrete"
-            app:thumb_style="pin" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
 
-        <com.dgmltn.slider.ArcSlider
-            android:id="@+id/arcslider2"
+            <com.dgmltn.slider.ArcSlider
+                android:id="@+id/arcslider1"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:paddingBottom="24dp"
+                android:paddingTop="48dp"
+                app:style="discrete"
+                app:hasTicks="true"
+                app:max="20"
+                app:thumb_style="pin" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:textSize="12sp"
+                android:text="ArcSlider - discrete, hasTicks"/>
+
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:paddingBottom="24dp"
-            android:paddingTop="48dp"
-            app:style="discrete"
-            app:arc_start="180"
-            app:arc_sweep="180"
-            app:thumb_style="pin" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+
+            <com.dgmltn.slider.ArcSlider
+                android:id="@+id/arcslider2"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:paddingBottom="24dp"
+                android:paddingTop="48dp"
+                app:style="discrete"
+                app:arc_start="180"
+                app:arc_sweep="180"
+                app:thumb_style="pin" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:textSize="12sp"
+                android:text="ArcSlider - discrete"/>
+
+        </FrameLayout>
 
     </LinearLayout>
 </ScrollView>
