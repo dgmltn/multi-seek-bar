@@ -22,6 +22,13 @@ public class HorizontalSlider extends AbsSlider {
 	}
 
 	@Override
+	protected void initTrack() {
+		super.initTrack();
+		mTrackOffPaint.setStyle(Paint.Style.FILL);
+		mTrackOnPaint.setStyle(Paint.Style.FILL);
+	}
+
+	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 
@@ -32,7 +39,9 @@ public class HorizontalSlider extends AbsSlider {
 
 	@Override
 	protected void drawConnectingLine(Canvas canvas, float from, float to, Paint paint) {
-		canvas.drawLine(getXOnBar(from), mY, getXOnBar(to), mY, paint);
+		int top = (int)(mY - paint.getStrokeWidth() / 2);
+		int bot = (int)(top + paint.getStrokeWidth());
+		canvas.drawRect(getXOnBar(from), top, getXOnBar(to), bot, paint);
 	}
 
 	@Override
@@ -52,6 +61,8 @@ public class HorizontalSlider extends AbsSlider {
 
 	@Override
 	protected void drawBar(Canvas canvas, Paint paint) {
-		canvas.drawLine(mLeftX, mY, mRightX, mY, paint);
+		int top = (int)(mY - paint.getStrokeWidth() / 2);
+		int bot = (int)(top + paint.getStrokeWidth());
+		canvas.drawRect(mLeftX, top, mRightX, bot, paint);
 	}
 }
