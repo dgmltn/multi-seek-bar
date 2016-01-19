@@ -50,7 +50,7 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 		addTransition(STATE_COLLAPSED_ID, STATE_EXPANDED_ID, expanding, false);
 		addTransition(STATE_EXPANDED_ID, STATE_COLLAPSED_ID, collapsing, false);
 
-		paint.setColor(Color.WHITE);
+		paint.setColor(Color.BLUE);
 		paint.setTextSize(24f);
 		paint.setTextAlign(Paint.Align.CENTER);
 		paint.setAntiAlias(true);
@@ -82,15 +82,15 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 	}
 
 	// These numbers were determined experimentally based on the actual pin drawable
-	private static final float TEXT_EXPANSION_Y_PCT_START = 0.38f;
-	private static final float TEXT_EXPANSION_Y_PCT_STOP = -0.12f;
-	private static final float TEXT_SCALE_PCT = 0.27f;
+	private static final float TEXT_EXPANSION_Y_PCT_START = 0.5f;
+	private static final float TEXT_EXPANSION_Y_PCT_STOP = 0.25f;
+	private static final float TEXT_SCALE_PCT = 0.35f;
 
 	@Override
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
 
-		if (text != null && mExpansionPercent >= 0) {
+		if (text != null && mExpansionPercent > 0) {
 			// Recalculate text scaling if necessary
 			if (textScale == 0f) {
 				paint.getTextBounds(text, 0, text.length(), textBounds);
@@ -100,6 +100,7 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 				textScale = canvas.getWidth() * TEXT_SCALE_PCT / diameter;
 			}
 
+			int saveCount = canvas.getSaveCount();
 			canvas.save();
 
 			float scale = textScale * mExpansionPercent;
@@ -109,10 +110,12 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 			float b = TEXT_EXPANSION_Y_PCT_START - TEXT_EXPANSION_Y_PCT_STOP;
 			float y = canvas.getHeight() * (a - b * mExpansionPercent);
 
+			// This translates 0,0 to the center of the balloon
 			canvas.translate(canvas.getWidth() / 2 / scale, y / scale);
-			canvas.drawText(text, 0, textBounds.height() / 2 * mExpansionPercent, paint);
 
-			canvas.restore();
+			canvas.drawText(text, 0, (paint.descent() + paint.ascent()) / -2f, paint);
+
+			canvas.restoreToCount(saveCount);
 		}
 	}
 
