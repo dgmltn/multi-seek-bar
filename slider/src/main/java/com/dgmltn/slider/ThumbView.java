@@ -4,18 +4,18 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.IntDef;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.StateSet;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.dgmltn.slider.internal.AnimatedPinDrawable;
 import com.dgmltn.slider.internal.Utils;
@@ -24,7 +24,7 @@ import com.dgmltn.slider.internal.Utils;
  * A simple View that wraps an AnimatedPinDrawable. Almost all of the functionality
  * is part of AnimatedPinDrawable.
  */
-public class ThumbView extends ImageView {
+public class ThumbView extends View {
 
 	private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
 
@@ -45,6 +45,8 @@ public class ThumbView extends ImageView {
 	float value = 0f;
 	private String customText = null;
 	boolean useCustomText = false;
+
+	ColorStateList mDrawableTintList = null;
 
 	public ThumbView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -81,25 +83,56 @@ public class ThumbView extends ImageView {
 		setClickable(clickable);
 	}
 
+	public void setImageTintList(ColorStateList tint) {
+		mDrawableTintList = tint;
+		if (drawable != null) {
+			drawable.setTintList(tint);
+			drawable.invalidateSelf();
+		}
+	}
+
+	@Override
+	public void jumpDrawablesToCurrentState() {
+		super.jumpDrawablesToCurrentState();
+		if (drawable != null) drawable.jumpToCurrentState();
+	}
+
 	@Override
 	protected void drawableStateChanged() {
 		super.drawableStateChanged();
-		doHackyInvalidateThing();
+		Drawable d = drawable;
+		if (d != null && d.isStateful()) {
+			d.setState(getDrawableState());
+		}
 	}
 
-	// Sony screwed up their animations in general, but this makes it mostly better.
-	// They did something that makes collapse animations take MUCH longer.
-	// Without this, the animation of the pin collapse freezes just after it starts.
-	private void doHackyInvalidateThing() {
-		int duration = getResources().getInteger(android.R.integer.config_mediumAnimTime);
-		ObjectAnimator.ofInt(new Object() {
-			public int getNothing() {
-				return 0;
-			}
-			public void setNothing(int nohting) {
-				invalidate();
-			}
-		}, "nothing", 0, 1).setDuration(duration).start();
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		int w = 0;
+		int h = 0;
+
+		if (drawable != null) {
+			w = drawable.getIntrinsicWidth();
+			h = drawable.getIntrinsicHeight();
+			if (w <= 0) w = 1;
+			if (h <= 0) h = 1;
+		}
+
+		int pleft = getPaddingLeft();
+		int pright = getPaddingRight();
+		int ptop = getPaddingTop();
+		int pbottom = getPaddingBottom();
+
+		w += pleft + pright;
+		h += ptop + pbottom;
+
+		w = Math.max(w, getSuggestedMinimumWidth());
+		h = Math.max(h, getSuggestedMinimumHeight());
+
+		int widthSize = resolveSizeAndState(w, widthMeasureSpec, 0);
+		int heightSize = resolveSizeAndState(h, heightMeasureSpec, 0);
+
+		setMeasuredDimension(widthSize, heightSize);
 	}
 
 	public
@@ -120,7 +153,35 @@ public class ThumbView extends ImageView {
 			thumbStyle == STYLE_PIN ? new AnimatedPinDrawable(getContext())
 				: thumbStyle == STYLE_NOTHING ? null
 					: ContextCompat.getDrawable(getContext(), R.drawable.seekbar_thumb_material_anim);
-		setImageDrawable(drawable);
+		if (drawable != null) {
+			drawable.setTintList(mDrawableTintList);
+			drawable.setState(getDrawableState());
+			drawable.setVisible(getVisibility() == VISIBLE, true);
+			drawable.setCallback(this);
+		}
+		invalidate();
+	}
+
+	@Override
+	public void invalidateDrawable(Drawable dr) {
+		if (dr == drawable) {
+			invalidate();
+		}
+		else {
+			super.invalidateDrawable(dr);
+		}
+	}
+
+	private Rect bounds = new Rect();
+
+	@Override
+	protected void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
+		if (drawable != null) {
+			canvas.getClipBounds(bounds);
+			drawable.setBounds(bounds);
+			drawable.draw(canvas);
+		}
 	}
 
 	public String getText() {
