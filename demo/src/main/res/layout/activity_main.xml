@@ -21,8 +21,8 @@
         <!-- ThumbView -->
         <com.dgmltn.slider.ThumbView
             android:id="@+id/thumb1"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="32dp"
+            android:layout_height="96dp"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
             android:background="#20000000"
@@ -108,6 +108,8 @@
             android:paddingBottom="24dp"
             android:paddingTop="48dp"
             app:style="discrete"
+            app:hasTicks="true"
+            app:max="20"
             app:thumb_style="pin" />
 
         <com.dgmltn.slider.ArcSlider

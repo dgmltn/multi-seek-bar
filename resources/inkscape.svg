@@ -8,9 +8,9 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
-   width="48"
-   height="48"
-   viewBox="0 0 48 48"
+   width="36"
+   height="108"
+   viewBox="0 0 36 108"
    id="svg2"
    inkscape:version="0.91 r13725"
    sodipodi:docname="inkscape.svg">
@@ -43,39 +43,24 @@
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="13.906433"
-     inkscape:cx="6.6791595"
-     inkscape:cy="26.00383"
-     inkscape:window-x="31"
-     inkscape:window-y="22"
+     inkscape:zoom="5.6568542"
+     inkscape:cx="17.636615"
+     inkscape:cy="60.13246"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="0"
-     inkscape:current-layer="layer1">
-    <sodipodi:guide
-       position="4.9830509,27.152542"
-       orientation="1,0"
-       id="guide3338" />
-    <sodipodi:guide
-       position="19.016949,24"
-       orientation="1,0"
-       id="guide3340" />
-    <sodipodi:guide
-       position="-1.7258199,24.017661"
-       orientation="0,1"
-       id="guide3348" />
-    <sodipodi:guide
-       position="23.945752,40.341041"
-       orientation="1,0"
-       id="guide3409" />
-  </sodipodi:namedview>
+     inkscape:current-layer="layer1"
+     fit-margin-top="48"
+     fit-margin-left="48" />
   <g
      inkscape:groupmode="layer"
      id="layer1"
      inkscape:label="pin"
-     style="display:inline"
-     transform="translate(0,15)">
+     style="display:inline;opacity:0.9"
+     transform="translate(0,75)">
     <path
        style="display:inline"
-       d="M 24,-28.999999 A 11.2,11.2 0 0 0 12.8,-17.8 C 12.8,-9.4 24,3 24,3 24,3 35.2,-9.4 35.2,-17.8 A 11.2,11.2 0 0 0 24,-28.999999 Z"
+       d="M 18,-58.999999 A 11.2,11.2 0 0 0 6.8,-47.8 c 0,8.4 11.2,20.8 11.2,20.8 0,0 11.2,-12.4 11.2,-20.8 A 11.2,11.2 0 0 0 18,-58.999999 Z"
        id="path4"
        inkscape:connector-curvature="0" />
   </g>
@@ -84,12 +69,12 @@
      id="layer2"
      inkscape:label="circle"
      style="display:inline"
-     transform="translate(0,15)">
+     transform="translate(0,75)">
     <circle
        style="opacity:0.21199999;fill:#000000;fill-opacity:1"
        id="path3346"
-       cx="24"
-       cy="9"
+       cx="18"
+       cy="-21"
        r="6" />
   </g>
 </svg>
