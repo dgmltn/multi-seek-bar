@@ -1,1 +1,1 @@
-include ':demo', ':slider'
+include ':demo', ':multi-seek-bar'

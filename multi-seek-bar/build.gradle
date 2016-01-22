@@ -1,0 +1,76 @@
+apply plugin: 'com.android.library'
+
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 23
+        versionCode rootProject.ext.libraryVersionCode
+        versionName rootProject.ext.libraryVersion
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:23.1.1'
+}
+
+// Publish to Bintray
+
+apply plugin: 'maven-publish'
+apply plugin: 'com.jfrog.bintray'
+
+task sourceJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId rootProject.ext.bintrayGroupId
+            artifactId rootProject.ext.bintrayArtifactId
+            version rootProject.ext.libraryVersion
+
+            artifact(javadocJar)
+            artifact(sourceJar)
+            artifact("$buildDir/outputs/aar/multi-seek-bar-release.aar")
+        }
+    }
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    publications = ['mavenJava']
+    publish = true
+    pkg {
+        repo = 'maven'
+        name = rootProject.ext.bintrayArtifactId
+        version {
+            name = rootProject.ext.libraryVersion
+            vcsTag = rootProject.ext.libraryVersion
+        }
+    }
+}
