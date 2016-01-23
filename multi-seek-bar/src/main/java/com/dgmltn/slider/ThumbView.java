@@ -27,6 +27,8 @@ import com.dgmltn.slider.internal.Utils;
 public class ThumbView extends ImageView {
 
 	private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
+	private static final float DEFAULT_VALUE = 0f;
+	private static final boolean DEFAULT_CLICKABLE = true;
 
 	@Retention(RetentionPolicy.SOURCE)
 	@IntDef({ STYLE_CIRCLE, STYLE_PIN, STYLE_NOTHING })
@@ -42,7 +44,7 @@ public class ThumbView extends ImageView {
 	int thumbStyle = STYLE_CIRCLE;
 
 	Drawable drawable = null;
-	float value = 0f;
+	float value = -1f;
 	private String customText = null;
 	boolean useCustomText = false;
 
@@ -67,15 +69,15 @@ public class ThumbView extends ImageView {
 				setText(ta.getString(R.styleable.ThumbView_android_text));
 			}
 
-			setValue(ta.getFloat(R.styleable.ThumbView_value, value));
-			setClickable(ta.getBoolean(R.styleable.ThumbView_android_clickable, true));
+			setValue(ta.getFloat(R.styleable.ThumbView_value, DEFAULT_VALUE));
+			setClickable(ta.getBoolean(R.styleable.ThumbView_android_clickable, DEFAULT_CLICKABLE));
 
 			ta.recycle();
 		}
 		else {
 			setThumbStyle(thumbStyle);
-			setValue(value);
-			setClickable(true);
+			setValue(DEFAULT_VALUE);
+			setClickable(DEFAULT_CLICKABLE);
 		}
 
 		if (getBackground() == null) {
@@ -92,6 +94,13 @@ public class ThumbView extends ImageView {
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 		adjustBackgroundHotspot();
+		updateDrawableText();
+	}
+
+	private void updateDrawableText() {
+		if (drawable instanceof AnimatedPinDrawable) {
+			((AnimatedPinDrawable) drawable).setText(useCustomText ? customText : Integer.toString(Math.round(value)));
+		}
 	}
 
 	private void adjustBackgroundHotspot() {
@@ -161,9 +170,7 @@ public class ThumbView extends ImageView {
 	public void setText(String text) {
 		useCustomText = true;
 		customText = text;
-		if (drawable != null && drawable instanceof AnimatedPinDrawable) {
-			((AnimatedPinDrawable) drawable).setText(customText);
-		}
+		updateDrawableText();
 	}
 
 	public void setTextColor(int color) {
@@ -192,9 +199,7 @@ public class ThumbView extends ImageView {
 			}
 		}
 
-		if (!useCustomText && drawable != null && drawable instanceof AnimatedPinDrawable) {
-			((AnimatedPinDrawable) drawable).setText(Integer.toString(Math.round(value)));
-		}
+		updateDrawableText();
 	}
 
 	private ArrayList<OnValueChangedListener> listeners;

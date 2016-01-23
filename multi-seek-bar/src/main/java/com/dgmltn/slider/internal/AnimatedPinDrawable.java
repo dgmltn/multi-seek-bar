@@ -77,6 +77,11 @@ public class AnimatedPinDrawable extends AnimatedStateListDrawable {
 		invalidateSelf();
 	}
 
+	public void rescale() {
+		textScale = 0f;
+		invalidateSelf();
+	}
+
 	public void setTextColor(int color) {
 		paint.setColor(color);
 	}
