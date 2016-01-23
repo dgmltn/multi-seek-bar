@@ -37,8 +37,8 @@
 
             <com.dgmltn.slider.ThumbView
                 android:id="@+id/thumb1"
-                android:layout_width="32dp"
-                android:layout_height="96dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="16dp"
