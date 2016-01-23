@@ -1,5 +1,5 @@
-Slider
-======
+multi-seek-bar
+==============
 
 [ ![Download](https://api.bintray.com/packages/dgmltn/maven/multi-seek-bar/images/download.svg) ](https://bintray.com/dgmltn/maven/multi-seek-bar/_latestVersion)
 
