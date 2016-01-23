@@ -37,8 +37,6 @@ public class ArcSlider extends AbsSlider {
 
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-		super.onLayout(changed, left, top, right, bottom);
-
 		float pw = getWidth() - getPaddingLeft() - getPaddingRight();
 		float ph = getHeight() - getPaddingTop() - getPaddingBottom();
 
@@ -53,6 +51,10 @@ public class ArcSlider extends AbsSlider {
 		float dy = -mBounds.top + ph / 2 - mBounds.height() / 2 + getPaddingTop();
 		mCenter.offset(dx, dy);
 		mBounds.offset(dx, dy);
+
+		// super.onLayout layout-s the children, which depend on mCenter and mBounds.
+		// So make sure to call super.onLayout after these have been calculated.
+		super.onLayout(changed, left, top, right, bottom);
 	}
 
 	public int getArcStart() {
