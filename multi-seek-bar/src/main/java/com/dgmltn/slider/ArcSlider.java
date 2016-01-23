@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.dgmltn.slider.internal.AbsSlider;
 import com.dgmltn.slider.internal.ArcUtils;
@@ -37,15 +36,7 @@ public class ArcSlider extends AbsSlider {
 	}
 
 	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		super.onSizeChanged(w, h, oldw, oldh);
-		requestLayout();
-	}
-
-	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-		super.onLayout(changed, left, top, right, bottom);
-
 		float pw = getWidth() - getPaddingLeft() - getPaddingRight();
 		float ph = getHeight() - getPaddingTop() - getPaddingBottom();
 
@@ -60,6 +51,10 @@ public class ArcSlider extends AbsSlider {
 		float dy = -mBounds.top + ph / 2 - mBounds.height() / 2 + getPaddingTop();
 		mCenter.offset(dx, dy);
 		mBounds.offset(dx, dy);
+
+		// super.onLayout layout-s the children, which depend on mCenter and mBounds.
+		// So make sure to call super.onLayout after these have been calculated.
+		super.onLayout(changed, left, top, right, bottom);
 	}
 
 	public int getArcStart() {

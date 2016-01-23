@@ -172,6 +172,8 @@ public abstract class AbsSlider extends ViewGroup implements ThumbView.OnValueCh
 			View child = getChildAt(i);
 			child.measure(childWidthMeasureSpec, childHeightMeasureSpec);
 		}
+
+		setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
 	}
 
 	@Override
