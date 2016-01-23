@@ -13,8 +13,8 @@ buildscript {
 
 ext.compileSdkVersion = 23
 ext.buildToolsVersion = '23.0.2'
-ext.libraryVersion = '1.0.0'
-ext.libraryVersionCode = 1
+ext.libraryVersion = '1.0.1'
+ext.libraryVersionCode = 2
 
 // Bintray configuration
 ext.bintrayGroupId = 'com.dgmltn'
