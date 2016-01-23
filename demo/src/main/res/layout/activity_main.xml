@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/parent_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipChildren="false"
@@ -19,25 +19,52 @@
         tools:context=".MainActivity">
 
         <!-- ThumbView -->
-        <com.dgmltn.slider.ThumbView
-            android:id="@+id/thumb1"
-            android:layout_width="32dp"
-            android:layout_height="96dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
-            android:background="#20000000"
-            android:scaleType="center"
-            android:text="yay"
-            app:thumb_style="pin" />
-
-        <!-- basic HorizontalSlider -->
-        <FrameLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:background="#10000000">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:background="#ccc"
+                android:padding="4dp"
+                android:text="Standalone ThumbView"
+                android:textSize="12sp" />
+
+            <com.dgmltn.slider.ThumbView
+                android:id="@+id/thumb1"
+                android:layout_width="32dp"
+                android:layout_height="96dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="16dp"
+                android:background="#20000000"
+                android:scaleType="center"
+                android:text="yay"
+                app:thumb_style="pin" />
+
+        </android.support.v7.widget.CardView>
+
+        <!-- basic HorizontalSlider -->
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#10000000">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:background="#ccc"
+                android:padding="4dp"
+                android:text="Horizontal Slider (with 2 thumbs)"
+                android:textSize="12sp" />
 
             <com.dgmltn.slider.HorizontalSlider
                 android:id="@+id/hslider1"
@@ -46,63 +73,69 @@
                 android:padding="24dp"
                 app:thumbs="2" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|left"
-                android:textSize="12sp"
-                android:text="Horizontal Slider (with 2 thumbs)"/>
-
-        </FrameLayout>
+        </android.support.v7.widget.CardView>
 
         <!-- basic HorizontalSlider (official) -->
-        <FrameLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:background="#10000000">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:background="#ccc"
+                android:padding="4dp"
+                android:text="Basic Horizontal Slider (AppCompat)"
+                android:textSize="12sp" />
+
             <android.support.v7.widget.AppCompatSeekBar
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:padding="24dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|left"
-                android:textSize="12sp"
-                android:text="Basic Horizontal Slider (AppCompat)"/>
+        </android.support.v7.widget.CardView>
 
-        </FrameLayout>
-
-        <FrameLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:background="#ccc"
+                android:padding="4dp"
+                android:text="Basic Horizontal Slider (AppCompat)"
+                android:textSize="12sp" />
+
             <android.support.v7.widget.AppCompatSeekBar
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:padding="24dp" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|left"
-                android:textSize="12sp"
-                android:text="Basic Horizontal Slider (AppCompat)"/>
-
-        </FrameLayout>
+        </android.support.v7.widget.CardView>
 
         <!-- HorizontalSlider with explicitly defined ThumbView -->
-        <FrameLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:background="#ccc"
+                android:padding="4dp"
+                android:text="HorizontalSlider with explicitly defined ThumbView"
+                android:textSize="12sp" />
 
             <com.dgmltn.slider.HorizontalSlider
                 android:id="@+id/hslider2"
@@ -123,21 +156,23 @@
                     app:value="100" />
             </com.dgmltn.slider.HorizontalSlider>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|left"
-                android:textSize="12sp"
-                android:text="HorizontalSlider with explicitly defined ThumbView"/>
-
-        </FrameLayout>
+        </android.support.v7.widget.CardView>
 
         <!-- ArcSlider -->
-        <FrameLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:background="#ccc"
+                android:padding="4dp"
+                android:text="ArcSlider - discrete, hasTicks"
+                android:textSize="12sp" />
 
             <com.dgmltn.slider.ArcSlider
                 android:id="@+id/arcslider1"
@@ -145,25 +180,27 @@
                 android:layout_height="200dp"
                 android:paddingBottom="24dp"
                 android:paddingTop="48dp"
-                app:style="discrete"
                 app:hasTicks="true"
                 app:max="20"
+                app:style="discrete"
                 app:thumb_style="pin" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|left"
-                android:textSize="12sp"
-                android:text="ArcSlider - discrete, hasTicks"/>
+        </android.support.v7.widget.CardView>
 
-        </FrameLayout>
-
-        <FrameLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:background="#ccc"
+                android:padding="4dp"
+                android:text="ArcSlider - discrete"
+                android:textSize="12sp" />
 
             <com.dgmltn.slider.ArcSlider
                 android:id="@+id/arcslider2"
@@ -171,19 +208,12 @@
                 android:layout_height="200dp"
                 android:paddingBottom="24dp"
                 android:paddingTop="48dp"
-                app:style="discrete"
                 app:arc_start="180"
                 app:arc_sweep="180"
+                app:style="discrete"
                 app:thumb_style="pin" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|left"
-                android:textSize="12sp"
-                android:text="ArcSlider - discrete"/>
-
-        </FrameLayout>
+        </android.support.v7.widget.CardView>
 
     </LinearLayout>
 </ScrollView>
