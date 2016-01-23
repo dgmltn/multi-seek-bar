@@ -49,12 +49,10 @@ public class ThumbView extends ImageView {
 	public ThumbView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
-		boolean clickable = true;
-
 		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ThumbView, 0, 0);
 
-			thumbStyle = validateThumbStyle(ta.getInt(R.styleable.ThumbView_thumb_style, thumbStyle));
+			setThumbStyle(validateThumbStyle(ta.getInt(R.styleable.ThumbView_thumb_style, thumbStyle)));
 
 			if (ta.hasValue(R.styleable.ThumbView_thumb_color)) {
 				setImageTintList(ta.getColorStateList(R.styleable.ThumbView_thumb_color));
@@ -70,15 +68,47 @@ public class ThumbView extends ImageView {
 			}
 
 			setValue(ta.getFloat(R.styleable.ThumbView_value, value));
-
-			clickable = ta.getBoolean(R.styleable.ThumbView_android_clickable, clickable);
+			setClickable(ta.getBoolean(R.styleable.ThumbView_android_clickable, true));
 
 			ta.recycle();
 		}
+		else {
+			setThumbStyle(thumbStyle);
+			setValue(value);
+			setClickable(true);
+		}
 
-		setThumbStyle(thumbStyle);
-		setValue(value);
-		setClickable(clickable);
+		if (getBackground() == null) {
+			int[] backgroundAttrs = new int[] { R.attr.selectableItemBackgroundBorderless };
+			TypedArray typedArray = context.obtainStyledAttributes(backgroundAttrs);
+			int backgroundResource = typedArray.getResourceId(0, 0);
+			typedArray.recycle();
+			setBackgroundResource(backgroundResource);
+			adjustBackgroundHotspot();
+		}
+	}
+
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+		adjustBackgroundHotspot();
+	}
+
+	private void adjustBackgroundHotspot() {
+		Drawable background = getBackground();
+		if (background == null) {
+			return;
+		}
+
+		float d = getResources().getDimension(R.dimen.hotspot_diameter);
+		int x = getWidth() / 2;
+		int y = getHeight() / 2;
+		int left = (int) (x - d / 2);
+		int right = (int) (left + d);
+		int top = (int) (y - d / 2);
+		int bottom = (int) (top + d);
+		background.setHotspotBounds(left, top, right, bottom);
+		background.setHotspot(x, y);
 	}
 
 	@Override
@@ -96,6 +126,7 @@ public class ThumbView extends ImageView {
 			public int getNothing() {
 				return 0;
 			}
+
 			public void setNothing(int nohting) {
 				invalidate();
 			}

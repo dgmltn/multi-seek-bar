@@ -3,4 +3,5 @@
     <dimen name="default_touch_radius">24dp</dimen>
     <dimen name="default_track_width">2dp</dimen>
     <dimen name="default_tick_radius">1.5dp</dimen>
+    <dimen name="hotspot_diameter">23dp</dimen>
 </resources>
