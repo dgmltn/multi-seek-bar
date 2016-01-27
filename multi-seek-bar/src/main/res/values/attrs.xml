@@ -6,9 +6,11 @@
             <enum name="circle" value="0" />
             <enum name="pin" value="1" />
             <enum name="nothing" value="2" />
+            <enum name="custom" value="3" />
         </attr>
         <attr name="thumb_color" format="color" />
         <attr name="thumb_textColor" format="color" />
+        <attr name="thumb_drawable" format="reference" />
         <attr name="value" format="float" />
         <attr name="android:text" />
         <attr name="android:clickable" />
@@ -27,6 +29,7 @@
         <attr name="thumb_style" />
         <attr name="thumb_color" />
         <attr name="thumb_textColor" />
+        <attr name="thumb_drawable" />
     </declare-styleable>
 
     <declare-styleable name="ArcSeekBar">

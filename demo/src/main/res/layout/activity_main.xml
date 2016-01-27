@@ -229,7 +229,6 @@
 
         </android.support.v7.widget.CardView>
 
-        <!-- ArcSlider -->
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -242,7 +241,32 @@
                 android:layout_gravity="top|left"
                 android:background="#ccc"
                 android:padding="4dp"
-                android:text="ArcSlider - discrete, hasTicks"
+                android:text="Custom thumb"
+                android:textSize="12sp" />
+
+            <com.dgmltn.multiseekbar.HorizontalSeekBar
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="24dp"
+                app:thumb_drawable="@drawable/ic_thumb" />
+
+        </android.support.v7.widget.CardView>
+
+        <!-- ArcSlider -->
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:background="#ccc"
+                android:padding="4dp"
+                android:text="ArcSlider"
                 android:textSize="12sp" />
 
             <com.dgmltn.multiseekbar.ArcSeekBar
@@ -269,7 +293,7 @@
                 android:layout_gravity="top|left"
                 android:background="#ccc"
                 android:padding="4dp"
-                android:text="ArcSlider - discrete"
+                android:text="A little less arc"
                 android:textSize="12sp" />
 
             <com.dgmltn.multiseekbar.ArcSeekBar
@@ -277,10 +301,39 @@
                 android:layout_height="200dp"
                 android:paddingBottom="24dp"
                 android:paddingTop="48dp"
-                app:arc_start="180"
-                app:arc_sweep="180"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                app:arc_start="225"
+                app:arc_sweep="90"
                 app:style="discrete"
                 app:thumb_style="pin"
+                app:rotate_thumbs="true" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:background="#ccc"
+                android:padding="4dp"
+                android:text="A little less arc"
+                android:textSize="12sp" />
+
+            <com.dgmltn.multiseekbar.ArcSeekBar
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:paddingBottom="24dp"
+                android:paddingTop="48dp"
+                app:arc_start="225"
+                app:arc_sweep="135"
+                app:thumb_drawable="@drawable/ic_thumb"
                 app:rotate_thumbs="true" />
 
         </android.support.v7.widget.CardView>

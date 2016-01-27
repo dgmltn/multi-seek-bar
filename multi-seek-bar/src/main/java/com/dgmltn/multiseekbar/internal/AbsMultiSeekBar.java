@@ -12,6 +12,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.util.StateSet;
@@ -58,6 +59,7 @@ public abstract class AbsMultiSeekBar extends ViewGroup implements ThumbView.OnV
 	@ThumbView.ThumbStyle
 	int thumbStyle = ThumbView.STYLE_CIRCLE;
 	private int thumbTextColor = DEFAULT_TEXT_COLOR;
+	private Drawable thumbDrawable = null;
 
 	public AbsMultiSeekBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -90,7 +92,9 @@ public abstract class AbsMultiSeekBar extends ViewGroup implements ThumbView.OnV
 				thumbColor = ThumbView.generateDefaultColorStateListFromTheme(context);
 			}
 
-			thumbStyle = ThumbView.validateThumbStyle(ta.getInt(R.styleable.AbsMultiSeekBar_thumb_style, thumbStyle));
+			thumbStyle = ThumbView.scrubThumbStyle(ta.getInt(R.styleable.AbsMultiSeekBar_thumb_style, thumbStyle));
+
+			thumbDrawable = ta.getDrawable(R.styleable.AbsMultiSeekBar_thumb_drawable);
 
 			thumbTextColor = ta.getColor(R.styleable.AbsMultiSeekBar_thumb_textColor, thumbTextColor);
 			ta.recycle();
@@ -114,16 +118,24 @@ public abstract class AbsMultiSeekBar extends ViewGroup implements ThumbView.OnV
 		if (getChildCount() != 0) {
 			thumbs = 0;
 			for (int i = 0; i < getChildCount(); i++) {
-				getChildAt(i).addOnValueChangedListener(this);
+				ThumbView thumb = getChildAt(i);
+				thumb.addOnValueChangedListener(this);
+				onValueChange(thumb, 0, thumb.getValue());
 			}
 		}
 		else {
 			for (int i = 0; i < thumbs; i++) {
 				ThumbView thumb = new ThumbView(getContext(), null);
-				thumb.setThumbStyle(thumbStyle);
+				if (thumbDrawable != null) {
+					thumb.setThumbDrawable(thumbDrawable);
+				}
+				else {
+					thumb.setThumbStyle(thumbStyle);
+				}
 				thumb.setImageTintList(thumbColor);
 				thumb.setTextColor(thumbTextColor);
 				thumb.addOnValueChangedListener(this);
+				onValueChange(thumb, 0, thumb.getValue());
 				addView(thumb);
 			}
 		}

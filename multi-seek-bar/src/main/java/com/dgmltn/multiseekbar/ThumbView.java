@@ -26,22 +26,24 @@ import com.dgmltn.multiseekbar.internal.Utils;
  */
 public class ThumbView extends ImageView {
 
-	private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
-	private static final float DEFAULT_VALUE = 0f;
-	private static final boolean DEFAULT_CLICKABLE = true;
-
 	@Retention(RetentionPolicy.SOURCE)
-	@IntDef({ STYLE_CIRCLE, STYLE_PIN, STYLE_NOTHING })
+	@IntDef({ STYLE_CIRCLE, STYLE_PIN, STYLE_NOTHING, STYLE_CUSTOM })
 	public @interface ThumbStyle {
 	}
 
 	public static final int STYLE_CIRCLE = 0;
 	public static final int STYLE_PIN = 1;
 	public static final int STYLE_NOTHING = 2;
+	public static final int STYLE_CUSTOM = 3;
+
+	private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
+	private static final float DEFAULT_VALUE = 0f;
+	private static final boolean DEFAULT_CLICKABLE = true;
+	private static final int DEFAULT_THUMB_STYLE = STYLE_CIRCLE;
 
 	private
 	@ThumbStyle
-	int thumbStyle = STYLE_CIRCLE;
+	int thumbStyle = DEFAULT_THUMB_STYLE;
 
 	Drawable drawable = null;
 	float value = -1f;
@@ -54,7 +56,11 @@ public class ThumbView extends ImageView {
 		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ThumbView, 0, 0);
 
-			setThumbStyle(validateThumbStyle(ta.getInt(R.styleable.ThumbView_thumb_style, thumbStyle)));
+			setThumbStyle(scrubThumbStyle(ta.getInt(R.styleable.ThumbView_thumb_style, thumbStyle)));
+
+			if (ta.hasValue(R.styleable.ThumbView_thumb_drawable)) {
+				setThumbDrawable(ta.getDrawable(R.styleable.ThumbView_thumb_drawable));
+			}
 
 			if (ta.hasValue(R.styleable.ThumbView_thumb_color)) {
 				setImageTintList(ta.getColorStateList(R.styleable.ThumbView_thumb_color));
@@ -150,16 +156,32 @@ public class ThumbView extends ImageView {
 
 	public static
 	@ThumbStyle
-	int validateThumbStyle(int s) {
-		return (s == STYLE_PIN || s == STYLE_NOTHING) ? s : STYLE_CIRCLE;
+	int scrubThumbStyle(int s) {
+		return (s == STYLE_PIN || s == STYLE_NOTHING || s == STYLE_CUSTOM) ? s : DEFAULT_THUMB_STYLE;
 	}
 
 	public void setThumbStyle(@ThumbStyle int thumbStyle) {
 		this.thumbStyle = thumbStyle;
-		drawable =
-			thumbStyle == STYLE_PIN ? new AnimatedPinDrawable(getContext())
-				: thumbStyle == STYLE_NOTHING ? null
-					: ContextCompat.getDrawable(getContext(), R.drawable.seekbar_thumb_material_anim);
+		switch (thumbStyle) {
+		case STYLE_PIN:
+			drawable = new AnimatedPinDrawable(getContext());
+			break;
+		case STYLE_NOTHING:
+			drawable = null;
+			break;
+		case STYLE_CUSTOM:
+			// Don't do anything, allow user to set drawable himself
+			break;
+		default:
+			drawable = ContextCompat.getDrawable(getContext(), R.drawable.seekbar_thumb_material_anim);
+			break;
+		}
+		setImageDrawable(drawable);
+	}
+
+	public void setThumbDrawable(Drawable thumb) {
+		setThumbStyle(STYLE_CUSTOM);
+		drawable = thumb;
 		setImageDrawable(drawable);
 	}
 
