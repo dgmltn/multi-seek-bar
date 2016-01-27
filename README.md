@@ -18,7 +18,7 @@ TODO
 
 Include in your android project from jcenter, using Gradle:
 ```groovy
-compile 'com.dgmltn:multi-seek-bar:1.0.1'
+compile 'com.dgmltn:multi-seek-bar:1.1.0'
 ```
 
 ## License
