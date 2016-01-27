@@ -6,7 +6,6 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/parent_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipChildren="false"
@@ -18,7 +17,6 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         tools:context=".MainActivity">
 
-        <!-- ThumbView -->
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,7 +34,6 @@
                 android:textSize="12sp" />
 
             <com.dgmltn.multiseekbar.ThumbView
-                android:id="@+id/thumb1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -49,7 +46,6 @@
 
         </android.support.v7.widget.CardView>
 
-        <!-- basic HorizontalSlider -->
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,33 +59,7 @@
                 android:layout_gravity="top|left"
                 android:background="#ccc"
                 android:padding="4dp"
-                android:text="Horizontal Slider (with 2 thumbs)"
-                android:textSize="12sp" />
-
-            <com.dgmltn.multiseekbar.HorizontalSeekBar
-                android:id="@+id/hslider1"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:padding="24dp"
-                app:thumbs="2" />
-
-        </android.support.v7.widget.CardView>
-
-        <!-- basic HorizontalSlider (official) -->
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:background="#10000000">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|left"
-                android:background="#ccc"
-                android:padding="4dp"
-                android:text="Basic Horizontal Slider (AppCompat)"
+                android:text="Basic AppCompatSeekBar"
                 android:textSize="12sp" />
 
             <android.support.v7.widget.AppCompatSeekBar
@@ -99,7 +69,29 @@
 
         </android.support.v7.widget.CardView>
 
-        <!-- HorizontalSlider with explicitly defined ThumbView -->
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#10000000">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:background="#ccc"
+                android:padding="4dp"
+                android:text="Basic HorizontalSeekBar, emulating AppCompatSeekBar"
+                android:textSize="12sp" />
+
+            <com.dgmltn.multiseekbar.HorizontalSeekBar
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="24dp" />
+
+        </android.support.v7.widget.CardView>
+
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -112,11 +104,10 @@
                 android:layout_gravity="top|left"
                 android:background="#ccc"
                 android:padding="4dp"
-                android:text="HorizontalSlider with explicitly defined ThumbView"
+                android:text="Stick the progress to the right"
                 android:textSize="12sp" />
 
             <com.dgmltn.multiseekbar.HorizontalSeekBar
-                android:id="@+id/hslider2"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:padding="24dp">
@@ -133,6 +124,108 @@
                     app:thumb_style="nothing"
                     app:value="100" />
             </com.dgmltn.multiseekbar.HorizontalSeekBar>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#10000000">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:background="#ccc"
+                android:padding="4dp"
+                android:text="Add a value balloon"
+                android:textSize="12sp" />
+
+            <com.dgmltn.multiseekbar.HorizontalSeekBar
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="24dp"
+                app:thumb_style="pin"
+                />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#10000000">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:background="#ccc"
+                android:padding="4dp"
+                android:text="Add a second thumb"
+                android:textSize="12sp" />
+
+            <com.dgmltn.multiseekbar.HorizontalSeekBar
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="24dp"
+                app:thumbs="2" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#10000000">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:background="#ccc"
+                android:padding="4dp"
+                android:text="With ticks"
+                android:textSize="12sp" />
+
+            <com.dgmltn.multiseekbar.HorizontalSeekBar
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="24dp"
+                app:max="10"
+                app:hasTicks="true"
+                app:thumbs="2" />
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="#10000000">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|left"
+                android:background="#ccc"
+                android:padding="4dp"
+                android:text="Snap to those ticks"
+                android:textSize="12sp" />
+
+            <com.dgmltn.multiseekbar.HorizontalSeekBar
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:padding="24dp"
+                app:max="10"
+                app:hasTicks="true"
+                app:style="discrete"
+                app:thumbs="2" />
 
         </android.support.v7.widget.CardView>
 
@@ -153,7 +246,6 @@
                 android:textSize="12sp" />
 
             <com.dgmltn.multiseekbar.ArcSeekBar
-                android:id="@+id/arcslider1"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:paddingBottom="24dp"
@@ -181,7 +273,6 @@
                 android:textSize="12sp" />
 
             <com.dgmltn.multiseekbar.ArcSeekBar
-                android:id="@+id/arcslider2"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:paddingBottom="24dp"
@@ -189,7 +280,8 @@
                 app:arc_start="180"
                 app:arc_sweep="180"
                 app:style="discrete"
-                app:thumb_style="pin" />
+                app:thumb_style="pin"
+                app:rotate_thumbs="true" />
 
         </android.support.v7.widget.CardView>
 
