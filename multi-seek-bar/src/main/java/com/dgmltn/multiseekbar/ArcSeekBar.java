@@ -23,6 +23,7 @@ public class ArcSeekBar extends AbsMultiSeekBar {
 
 	private int mArcStart = 150;
 	private int mArcSweep = 240;
+	private boolean mRotateThumbs = false;
 
 	public ArcSeekBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -31,6 +32,7 @@ public class ArcSeekBar extends AbsMultiSeekBar {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ArcSeekBar, 0, 0);
 			mArcStart = ta.getInt(R.styleable.ArcSeekBar_arc_start, mArcStart);
 			mArcSweep = ta.getInt(R.styleable.ArcSeekBar_arc_sweep, mArcSweep);
+			mRotateThumbs = ta.getBoolean(R.styleable.ArcSeekBar_rotate_thumbs, mRotateThumbs);
 			ta.recycle();
 		}
 	}
@@ -75,6 +77,14 @@ public class ArcSeekBar extends AbsMultiSeekBar {
 		requestLayout();
 	}
 
+	public boolean getRotateThumbs() {
+		return mRotateThumbs;
+	}
+
+	public void setmRotateThumbs(boolean rotateThumbs) {
+		mRotateThumbs = rotateThumbs;
+	}
+
 	private void calculateBounds() {
 		getNearestPointOnBar(mTmpPointF, mCenter.x - mRadius, mCenter.y);
 		mBounds.set(mTmpPointF.x, mTmpPointF.y, mTmpPointF.x, mTmpPointF.y);
@@ -116,6 +126,17 @@ public class ArcSeekBar extends AbsMultiSeekBar {
 	@Override
 	protected void drawBar(Canvas canvas, Paint paint) {
 		ArcUtils.drawArc(canvas, mCenter, mRadius, mArcStart, mArcSweep, mTrackOffPaint);
+	}
+
+	@Override
+	public void onValueChange(ThumbView thumb, float oldVal, float newVal) {
+		super.onValueChange(thumb, oldVal, newVal);
+		float angle = 0f;
+		if (mRotateThumbs) {
+			getPointOnBar(mTmpPointF, newVal);
+			angle = (float) getAngle(mTmpPointF.x, mTmpPointF.y) + 90f;
+		}
+		thumb.setRotation(angle);
 	}
 
 	// Private members /////////////////////////////////////////////////////////////
