@@ -360,7 +360,9 @@ public abstract class AbsMultiSeekBar extends ViewGroup implements ThumbView.OnV
 			drawConnectingLine(canvas, 0f, getChildAt(0).getValue(), mTrackOnPaint);
 		}
 		else if (getChildCount() == 2) {
-			drawConnectingLine(canvas, getChildAt(0).getValue(), getChildAt(1).getValue(), mTrackOnPaint);
+			float min = Math.min(getChildAt(0).getValue(), getChildAt(1).getValue());
+			float max = Math.max(getChildAt(0).getValue(), getChildAt(1).getValue());
+			drawConnectingLine(canvas, min, max, mTrackOnPaint);
 		}
 	}
 
