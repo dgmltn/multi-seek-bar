@@ -1,4 +1,4 @@
-package com.dgmltn.slider;
+package com.dgmltn.multiseekbar;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -8,13 +8,13 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 
-import com.dgmltn.slider.internal.AbsSlider;
-import com.dgmltn.slider.internal.ArcUtils;
+import com.dgmltn.multiseekbar.internal.AbsMultiSeekBar;
+import com.dgmltn.multiseekbar.internal.ArcUtils;
 
 /**
  * Created by doug on 11/2/15.
  */
-public class ArcSlider extends AbsSlider {
+public class ArcSeekBar extends AbsMultiSeekBar {
 
 	private PointF mCenter = new PointF();
 	private float mRadius = 1f;
@@ -24,13 +24,13 @@ public class ArcSlider extends AbsSlider {
 	private int mArcStart = 150;
 	private int mArcSweep = 240;
 
-	public ArcSlider(Context context, AttributeSet attrs) {
+	public ArcSeekBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
 
 		if (attrs != null) {
-			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ArcSlider, 0, 0);
-			mArcStart = ta.getInt(R.styleable.ArcSlider_arc_start, mArcStart);
-			mArcSweep = ta.getInt(R.styleable.ArcSlider_arc_sweep, mArcSweep);
+			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ArcSeekBar, 0, 0);
+			mArcStart = ta.getInt(R.styleable.ArcSeekBar_arc_start, mArcStart);
+			mArcSweep = ta.getInt(R.styleable.ArcSeekBar_arc_sweep, mArcSweep);
 			ta.recycle();
 		}
 	}

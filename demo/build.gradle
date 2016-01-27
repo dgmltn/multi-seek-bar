@@ -6,7 +6,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        applicationId "com.dgmltn.slider.demo"
+        applicationId "com.dgmltn.multiseekbar.demo"
         minSdkVersion 21
         targetSdkVersion 23
         versionCode 1

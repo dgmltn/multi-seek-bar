@@ -1,4 +1,4 @@
-package com.dgmltn.slider.internal;
+package com.dgmltn.multiseekbar.internal;
 
 import android.animation.ObjectAnimator;
 import android.content.Context;
@@ -13,7 +13,7 @@ import android.text.TextPaint;
 import android.util.StateSet;
 import android.view.animation.OvershootInterpolator;
 
-import com.dgmltn.slider.R;
+import com.dgmltn.multiseekbar.R;
 
 /**
  * Created by doug on 10/31/15.

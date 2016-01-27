@@ -1,4 +1,4 @@
-package com.dgmltn.slider;
+package com.dgmltn.multiseekbar;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,18 +6,18 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.util.AttributeSet;
 
-import com.dgmltn.slider.internal.AbsSlider;
+import com.dgmltn.multiseekbar.internal.AbsMultiSeekBar;
 
 /**
  * Created by doug on 11/1/15.
  */
-public class HorizontalSlider extends AbsSlider {
+public class HorizontalSeekBar extends AbsMultiSeekBar {
 
 	private int mLeftX;
 	private int mRightX;
 	private int mY;
 
-	public HorizontalSlider(Context context, AttributeSet attrs) {
+	public HorizontalSeekBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 

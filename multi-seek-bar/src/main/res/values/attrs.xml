@@ -14,7 +14,7 @@
         <attr name="android:clickable" />
     </declare-styleable>
 
-    <declare-styleable name="AbsSlider">
+    <declare-styleable name="AbsMultiSeekBar">
         <attr name="style" format="enum">
             <enum name="continuous" value="0" />
             <enum name="discrete" value="1" />
@@ -29,7 +29,7 @@
         <attr name="thumb_textColor" />
     </declare-styleable>
 
-    <declare-styleable name="ArcSlider">
+    <declare-styleable name="ArcSeekBar">
         <attr name="arc_start" format="integer" />
         <attr name="arc_sweep" format="integer" />
     </declare-styleable>

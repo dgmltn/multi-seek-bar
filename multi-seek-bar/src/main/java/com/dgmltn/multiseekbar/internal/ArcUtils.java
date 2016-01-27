@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  **/
 
-package com.dgmltn.slider.internal;
+package com.dgmltn.multiseekbar.internal;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

@@ -1,4 +1,4 @@
-package com.dgmltn.slider.demo
+package com.dgmltn.multiseekbar.demo
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity

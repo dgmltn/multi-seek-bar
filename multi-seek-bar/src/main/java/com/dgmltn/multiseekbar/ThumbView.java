@@ -1,4 +1,4 @@
-package com.dgmltn.slider;
+package com.dgmltn.multiseekbar;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -17,8 +17,8 @@ import android.util.StateSet;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.dgmltn.slider.internal.AnimatedPinDrawable;
-import com.dgmltn.slider.internal.Utils;
+import com.dgmltn.multiseekbar.internal.AnimatedPinDrawable;
+import com.dgmltn.multiseekbar.internal.Utils;
 
 /**
  * A simple View that wraps an AnimatedPinDrawable. Almost all of the functionality

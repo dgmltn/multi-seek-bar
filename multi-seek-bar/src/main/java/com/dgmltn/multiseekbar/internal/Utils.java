@@ -1,10 +1,10 @@
-package com.dgmltn.slider.internal;
+package com.dgmltn.multiseekbar.internal;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.TypedValue;
 
-import com.dgmltn.slider.R;
+import com.dgmltn.multiseekbar.R;
 
 /**
  * Created by doug on 11/5/15.

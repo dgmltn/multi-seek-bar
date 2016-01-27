@@ -1,4 +1,4 @@
-package com.dgmltn.slider.internal;
+package com.dgmltn.multiseekbar.internal;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -21,13 +21,13 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.animation.DecelerateInterpolator;
 
-import com.dgmltn.slider.R;
-import com.dgmltn.slider.ThumbView;
+import com.dgmltn.multiseekbar.R;
+import com.dgmltn.multiseekbar.ThumbView;
 
 /**
  * Created by doug on 11/1/15.
  */
-public abstract class AbsSlider extends ViewGroup implements ThumbView.OnValueChangedListener {
+public abstract class AbsMultiSeekBar extends ViewGroup implements ThumbView.OnValueChangedListener {
 
 	private static final int DEFAULT_TICK_COLOR = Color.BLACK;
 	private static final int DEFAULT_TEXT_COLOR = Color.WHITE;
@@ -59,40 +59,40 @@ public abstract class AbsSlider extends ViewGroup implements ThumbView.OnValueCh
 	int thumbStyle = ThumbView.STYLE_CIRCLE;
 	private int thumbTextColor = DEFAULT_TEXT_COLOR;
 
-	public AbsSlider(Context context, AttributeSet attrs) {
+	public AbsMultiSeekBar(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		setClipToPadding(false);
 		setClipChildren(false);
 		setWillNotDraw(false);
 
 		if (attrs != null) {
-			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.AbsSlider, 0, 0);
-			max = ta.getInteger(R.styleable.AbsSlider_max, max);
-			thumbs = ta.getInteger(R.styleable.AbsSlider_thumbs, thumbs);
-			hasTicks = ta.getBoolean(R.styleable.AbsSlider_hasTicks, hasTicks);
-			sliderStyle = validateSliderStyle(ta.getInt(R.styleable.AbsSlider_style, sliderStyle));
+			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.AbsMultiSeekBar, 0, 0);
+			max = ta.getInteger(R.styleable.AbsMultiSeekBar_max, max);
+			thumbs = ta.getInteger(R.styleable.AbsMultiSeekBar_thumbs, thumbs);
+			hasTicks = ta.getBoolean(R.styleable.AbsMultiSeekBar_hasTicks, hasTicks);
+			sliderStyle = validateSliderStyle(ta.getInt(R.styleable.AbsMultiSeekBar_style, sliderStyle));
 
-			if (ta.hasValue(R.styleable.AbsSlider_trackColor)) {
-				trackColor = ta.getColorStateList(R.styleable.AbsSlider_trackColor);
+			if (ta.hasValue(R.styleable.AbsMultiSeekBar_trackColor)) {
+				trackColor = ta.getColorStateList(R.styleable.AbsMultiSeekBar_trackColor);
 			}
 			else {
 				trackColor = generateDefaultTrackColorStateListFromTheme(context);
 			}
 
-			if (ta.hasValue(R.styleable.AbsSlider_tickColor)) {
-				tickColor = ta.getColorStateList(R.styleable.AbsSlider_tickColor);
+			if (ta.hasValue(R.styleable.AbsMultiSeekBar_tickColor)) {
+				tickColor = ta.getColorStateList(R.styleable.AbsMultiSeekBar_tickColor);
 			}
 
-			if (ta.hasValue(R.styleable.AbsSlider_thumb_color)) {
-				thumbColor = ta.getColorStateList(R.styleable.AbsSlider_thumb_color);
+			if (ta.hasValue(R.styleable.AbsMultiSeekBar_thumb_color)) {
+				thumbColor = ta.getColorStateList(R.styleable.AbsMultiSeekBar_thumb_color);
 			}
 			else {
 				thumbColor = ThumbView.generateDefaultColorStateListFromTheme(context);
 			}
 
-			thumbStyle = ThumbView.validateThumbStyle(ta.getInt(R.styleable.AbsSlider_thumb_style, thumbStyle));
+			thumbStyle = ThumbView.validateThumbStyle(ta.getInt(R.styleable.AbsMultiSeekBar_thumb_style, thumbStyle));
 
-			thumbTextColor = ta.getColor(R.styleable.AbsSlider_thumb_textColor, thumbTextColor);
+			thumbTextColor = ta.getColor(R.styleable.AbsMultiSeekBar_thumb_textColor, thumbTextColor);
 			ta.recycle();
 		}
 
@@ -395,14 +395,14 @@ public abstract class AbsSlider extends ViewGroup implements ThumbView.OnValueCh
 		 *
 		 * @param slider The SeekBar in which the touch gesture began
 		 */
-		void onStartTrackingTouch(AbsSlider slider);
+		void onStartTrackingTouch(AbsMultiSeekBar slider);
 
 		/**
 		 * Notification that the user has finished a touch gesture.
 		 *
 		 * @param slider The SeekBar in which the touch gesture began
 		 */
-		void onStopTrackingTouch(AbsSlider slider);
+		void onStopTrackingTouch(AbsMultiSeekBar slider);
 	}
 
 	private OnSliderChangeListener mOnSeekBarChangeListener;
