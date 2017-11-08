@@ -3,11 +3,10 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 23
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.libraryVersionCode
         versionName rootProject.ext.libraryVersion
     }
@@ -20,7 +19,7 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:23.1.1'
+    compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibVersion}"
 }
 
 // Publish to Bintray

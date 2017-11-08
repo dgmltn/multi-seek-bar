@@ -3,16 +3,19 @@
 buildscript {
     repositories {
         jcenter()
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:1.5.0'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.0.0-beta-1103'
+        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.1.51'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
     }
 }
 
-ext.compileSdkVersion = 23
-ext.buildToolsVersion = '23.0.2'
+ext.compileSdkVersion = 26
+ext.targetSdkVersion = 21
+ext.kotlinVersion = '1.1.51'
+ext.supportLibVersion = '27.0.0'
 ext.libraryVersion = '1.1.0'
 ext.libraryVersionCode = 3
 
@@ -23,6 +26,7 @@ ext.bintrayArtifactId = 'multi-seek-bar'
 allprojects {
     repositories {
         jcenter()
+        google()
     }
 }
 
