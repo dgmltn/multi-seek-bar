@@ -38,4 +38,9 @@
         <attr name="rotate_thumbs" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="PathSeekBar">
+        <attr name="rotate_thumbs" />
+        <attr name="path" format="string" />
+    </declare-styleable>
+
 </resources>
