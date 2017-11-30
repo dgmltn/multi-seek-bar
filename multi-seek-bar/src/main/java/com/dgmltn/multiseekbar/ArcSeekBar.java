@@ -81,7 +81,7 @@ public class ArcSeekBar extends AbsMultiSeekBar {
 		return mRotateThumbs;
 	}
 
-	public void setmRotateThumbs(boolean rotateThumbs) {
+	public void setRotateThumbs(boolean rotateThumbs) {
 		mRotateThumbs = rotateThumbs;
 	}
 
@@ -108,7 +108,7 @@ public class ArcSeekBar extends AbsMultiSeekBar {
 		float angle1 = (from / max) * mArcSweep;
 		float angle2 = (to / max) * mArcSweep;
 		float sweep = angle2 - angle1;
-		ArcUtils.drawArc(canvas, mCenter, mRadius, angle1 + mArcStart, sweep, mTrackOnPaint);
+		ArcUtils.drawArc(canvas, mCenter, mRadius, angle1 + mArcStart, sweep, paint);
 	}
 
 	@Override
@@ -125,7 +125,7 @@ public class ArcSeekBar extends AbsMultiSeekBar {
 
 	@Override
 	protected void drawBar(Canvas canvas, Paint paint) {
-		ArcUtils.drawArc(canvas, mCenter, mRadius, mArcStart, mArcSweep, mTrackOffPaint);
+		ArcUtils.drawArc(canvas, mCenter, mRadius, mArcStart, mArcSweep, paint);
 	}
 
 	@Override
